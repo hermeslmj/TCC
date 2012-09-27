@@ -7,13 +7,13 @@ function campoTexto(pai){
 				    +
 				""    	
 					+
-				"<tr><td>Marcador:</td><td><input type=text name = marcador_" + num_campos  + "/></td></tr>"	
+				"<tr><td>Marcador:</td><td><input type=text name = campo"+num_campos+"[marcador] /></td></tr>"	
 					+
-				"<tr><td>Tamanho Máximo:</td><td><input type=text name = comprimento_texto_" + num_campos  + "/></td></tr>"
+				"<tr><td>Tamanho Máximo:</td><td><input type=text name = campo"+num_campos+"[comprimento] /></td></tr>"
 					+
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = obrigatorio_texto_" + num_campos  + "  /></td></tr>"	
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = campo"+num_campos+"[obrigatorio] /></td></tr>"	
 					+
-				"<tr><td>Validação:</td><td><select>"
+				"<tr><td>Validação:</td><td><select name= campo"+num_campos+"[validacao]>"
 					+
 				"<option>...</option>"
 					+
@@ -42,15 +42,15 @@ function campoAreaTexto(pai){
 				    +
 				""    	
 					+
-				"<tr><td>Marcador:</td><td><input type=text name = marcador_" + num_campos  + "/></td></tr>"	
+				"<tr><td>Marcador:</td><td><input type=text name = campo"+num_campos+"[marcador] /></td></tr>"	
 				
 					+
-				"<tr><td>Largura</td><td><input type=text name = largura_areatexto_" + num_campos  + "  /></td></tr>"	
+				"<tr><td>Largura</td><td><input type=text name = campo"+num_campos+"[largura] /></td></tr>"	
 					+
-				"<tr><td>Altura</td><td><input type=text name = altura_areatexto_" + num_campos  + "  /></td></tr>"
+				"<tr><td>Altura</td><td><input type=text name = campo"+num_campos+"[altura] /></td></tr>"
 					+
 				
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = obrigatorio_areatexto_" + num_campos  + "  /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = campo"+num_campos+"[obrigatorio_areatexto] /></td></tr>"
 					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#areatexto_"+num_campos+"').remove();><hr></div>";
 					
@@ -64,9 +64,9 @@ function campoUpload(pai){
 				"<tr>Upload de arquivo </tr>"
 				    +
 				
-				"<tr><td>Marcador:</td><td><input type=text name = marcador_" + num_campos  + "/></td></tr>"	
+				"<tr><td>Marcador:</td><td><input type=text name = campo"+num_campos+"[marcador] /></td></tr>"	
 					+
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = obrigatorio_upload_" + num_campos  + "  /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = campo"+num_campos+"[obrigatorio_upload] /></td></tr>"
 					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#upload_"+num_campos+"').remove();><hr></div>";
 					
@@ -79,11 +79,11 @@ function campoLista(pai){
 					+
 				"<tr>Lista </tr>"
 					+
-				"<tr><td>Marcador:</td><td><input type=text name = marcador_" + num_campos  + "/></td></tr>"
+				"<tr><td>Marcador:</td><td><input type=text name = campo"+num_campos+"[marcador] /></td></tr>"
 					+
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = obrigatorio_lista_" + num_campos  + "  /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = campo"+num_campos+"[obrigatorio_lista] /></td></tr>"
 					+
-				"<tr><td>Opções(Digite as opções da lista separadas por vírgula)</td><td><input type = text name = opcoes_lista_" + num_campos + " /></td></tr>"
+				"<tr><td>Opções(Digite as opções da lista separadas por vírgula)</td><td><input type = text name = campo"+num_campos+"[opcoes_lista] /></td></tr>"
 					+	
 				"</table><input align='right' value='Remover' type='button' onclick=$('#lista_"+num_campos+"').remove();><hr></div>";
 	$(campo).appendTo('#'+pai);	
@@ -95,13 +95,13 @@ function campoCaixaDeMarcacao(pai){
 					+
 				"<tr>Caixa de Marcação </tr>"
 					+
-				"<tr><td>Marcador:</td><td><input type=text name = marcador_" + num_campos  + "/></td></tr>"
+				"<tr><td>Marcador:</td><td><input type=text name = campo"+num_campos+"[marcador] /></td></tr>"
 					+
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = obrigatorio_caixa_" + num_campos  + "  /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = campo"+num_campos+"[obrigatorio_caixa] /></td></tr>"
 					+
-				"<td>Opção única:</td><td><input type=radio value = unica name= caixa_tipo_" + num_campos + " /></td><td>Opções multiplas</td><td><input type=radio value = multi name=caixa_tipo_" + num_campos + " /></td>"
+				"<td>Opção única:</td><td><input type=radio value = unica name= campo"+num_campos+"[caixa_tipo] /></td><td>Opções multiplas</td><td><input type=radio value = multi name=caixa_tipo_" + num_campos + " /></td>"
 					+
-				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = opcoes_caixa_" + num_campos + " /></td></tr>"
+				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = campo"+num_campos+"[opcoes_caixa] /></td></tr>"
 					+	
 				"</table><input align='right' value='Remover' type='button' onclick=$('#caixa_"+num_campos+"').remove();><hr></div>";
 			$(campo).appendTo('#'+pai);	
