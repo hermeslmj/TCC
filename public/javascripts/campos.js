@@ -7,6 +7,7 @@ function campoTexto(pai){
 				    +
 				""    	
 					+
+
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"	
 					+
 				"<tr><td>Tamanho Máximo:</td><td><input type=text name = form[campo"+num_campos+"][comprimento] /></td></tr>"
@@ -42,6 +43,7 @@ function campoAreaTexto(pai){
 				    +
 				""    	
 					+
+
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"	
 				
 					+
@@ -51,6 +53,7 @@ function campoAreaTexto(pai){
 					+
 				
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio_areatexto] /></td></tr>"
+
 					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#areatexto_"+num_campos+"').remove();><hr></div>";
 					
@@ -64,11 +67,11 @@ function campoUpload(pai){
 				"<tr>Upload de arquivo </tr>"
 				    +
 				
+
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"	
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio_upload] /></td></tr>"
-					+
-				"</table><input align='right' value='Remover' type='button' onclick=$('#upload_"+num_campos+"').remove();><hr></div>";
+		"</table><input align='right' value='Remover' type='button' onclick=$('#upload_"+num_campos+"').remove();><hr></div>";
 					
 					
 	$(campo).appendTo('#'+pai);
@@ -79,6 +82,7 @@ function campoLista(pai){
 					+
 				"<tr>Lista </tr>"
 					+
+
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio_lista] /></td></tr>"
@@ -95,6 +99,7 @@ function campoCaixaDeMarcacao(pai){
 					+
 				"<tr>Caixa de Marcação </tr>"
 					+
+
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio_caixa] /></td></tr>"
