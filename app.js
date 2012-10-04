@@ -43,9 +43,34 @@ app.get('/', routes.index);
 
 app.post('/form', function(request, response){
 
-	var t = JSON.stringify(request.body);
-	console.log(t);
-    //console.log(request.body.form.name);
+	
+	var formulario;
+	var sql;	
+	
+	
+	
+	// Formulário guarda as informações vindas por POST
+	
+	formulario = request.body.form;
+	
+	console.log(request.body.form);
+	//data_atual = new Date();
+	//data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
+	//sql = INSERT INTO
+	    
+    
+/*    for(var i in request.body.form){
+		
+			console.log(request.body.form[i].marcador);
+			if(formulario[i].marcador ==  undefined){
+				console.log('nao tem marcador');
+			}
+			
+			
+		
+		
+		
+	}*/
     response.end();
 
 });
