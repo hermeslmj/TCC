@@ -7,7 +7,6 @@ function campoTexto(pai){
 				    +
 				""    	
 					+
-
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"	
 					+
 				"<tr><td>Tamanho Máximo:</td><td><input type=text name = form[campo"+num_campos+"][comprimento] /></td></tr>"
@@ -29,6 +28,8 @@ function campoTexto(pai){
 				"<option>Data</option>"	
 					+				
 				"</select></td></tr>"	
+					+
+				"<tr><td><input type = hidden name = form[campo"+num_campos+"][tipo] value='texto'></td></tr>"
 					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#texto_"+num_campos+"').remove();><hr></div>";
 					
@@ -55,6 +56,8 @@ function campoAreaTexto(pai){
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio_areatexto] /></td></tr>"
 
 					+
+				"<tr><td><input type = hidden name = form[campo"+num_campos+"][tipo] value='area'></td></tr>"
+					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#areatexto_"+num_campos+"').remove();><hr></div>";
 					
 					
@@ -71,6 +74,9 @@ function campoUpload(pai){
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"	
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio_upload] /></td></tr>"
+				+
+				"<tr><td><input type = hidden name = form[campo"+num_campos+"][tipo] value='upload'></td></tr>"
+					+
 		"</table><input align='right' value='Remover' type='button' onclick=$('#upload_"+num_campos+"').remove();><hr></div>";
 					
 					
@@ -89,6 +95,8 @@ function campoLista(pai){
 					+
 				"<tr><td>Opções(Digite as opções da lista separadas por vírgula)</td><td><input type = text name = form[campo"+num_campos+"][opcoes_lista] /></td></tr>"
 					+	
+					"<tr><td><input type = hidden name = form[campo"+num_campos+"][tipo] value='lista'></td></tr>"
+					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#lista_"+num_campos+"').remove();><hr></div>";
 	$(campo).appendTo('#'+pai);	
 				
@@ -108,6 +116,8 @@ function campoCaixaDeMarcacao(pai){
 					+
 				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = form[campo"+num_campos+"][opcoes_caixa] /></td></tr>"
 					+	
+					"<tr><td><input type = hidden name = form[campo"+num_campos+"][tipo] value='marcacao'></td></tr>"
+					+
 				"</table><input align='right' value='Remover' type='button' onclick=$('#caixa_"+num_campos+"').remove();><hr></div>";
 			$(campo).appendTo('#'+pai);	
 				

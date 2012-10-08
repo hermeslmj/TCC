@@ -52,24 +52,22 @@ app.post('/form', function(request, response){
 	
 	formulario = request.body.form;
 	
-	console.log(request.body.form);
-	//data_atual = new Date();
-	//data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
-	//sql = INSERT INTO
+	//console.log(request.body.form);
+	data_atual = new Date();
+	data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
+	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ formulario['name'] +'","'+ data_atual +'")';
+	//console.log(sql);
+	 
+	for(var i in formulario){
+		 if(formulario[i].tipo == undefined){
+    		console.log('nao eh campo');
+    	}else{
+    		console.log('eh campo');
+    	}
+	} 
 	    
-    
-/*    for(var i in request.body.form){
-		
-			console.log(request.body.form[i].marcador);
-			if(formulario[i].marcador ==  undefined){
-				console.log('nao tem marcador');
-			}
-			
-			
-		
-		
-		
-	}*/
+   
+	//console.log(formulario);
     response.end();
 
 });
