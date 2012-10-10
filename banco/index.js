@@ -1,10 +1,16 @@
 var mysql = require('mysql');
-var arq = require('../arquivos');
-var conexao = null;
+var GerenciadorDeArquivos = require('../arquivos');
 function Banco(){
-	var file = arq.learquivo('./arquivos/configuracao.json'); 
-	var arquivo = JSON.parse(file);
 	
+	
+	/*Chama o Gerenciador de Arquivos, solicita a leitura do arquivo e pega ele em formato JSON*/
+	gerArq = new GerenciadorDeArquivos();
+	gerArq.leArquivo('./arquivos/configuracao.json');
+	var arquivo = gerArq.retornaJSON();
+	/**/
+	
+	
+	var conexao = null;	
 	this.conexao = mysql.createClient({
 		user: arquivo.user,
 		password: arquivo.password,
@@ -21,25 +27,15 @@ Banco.prototype.insert = function(sql){
 	);
 }
 
+Banco.prototype.edit = function(sql){
+	
+}
+
+Banco.prototype.remove = function(sql){
+	
+}  
+
+
 module.exports = Banco;
 
-/*
-
-exports.conecta = function(servidor,database,usuario,senha){
-	conexao = mysql.createClient ({
-		user: usuario,
-		password: senha,
-		host: servidor
-	});
-	conexao.query(
-		'USE ' + database
-	);
-}
-
-exports.insert = function(sql){
-	conexao.query(
-		sql
-	);
-}
-*/
 
