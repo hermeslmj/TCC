@@ -1,10 +1,19 @@
 var fs = require('fs');
 
-exports.learquivo = function(caminho){
-
-	return fs.readFileSync(caminho,'utf-8');
-		
+function GerenciadorDeArquivos(){
+	var arquivo;
 }
+
+GerenciadorDeArquivos.prototype.leArquivo = function(caminho){
+	this.arquivo = fs.readFileSync(caminho,'utf-8');
+}
+
+GerenciadorDeArquivos.prototype.retornaJSON = function(){
+	return JSON.parse(this.arquivo);
+}
+
+
+module.exports = GerenciadorDeArquivos;
 
 
 
