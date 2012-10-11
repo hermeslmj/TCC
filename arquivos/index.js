@@ -12,6 +12,19 @@ GerenciadorDeArquivos.prototype.retornaJSON = function(){
 	return JSON.parse(this.arquivo);
 }
 
+GerenciadorDeArquivos.prototype.criarArquivo = function(nome,dados){
+	
+}
+
+GerenciadorDeArquivos.prototype.apagarArquivo = function(nome){
+	
+}
+
+GerenciadorDeArquivos.prototype.editarArquivo = function(nome,dados){
+	
+}
+
+
 
 module.exports = GerenciadorDeArquivos;
 
