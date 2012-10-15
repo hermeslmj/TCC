@@ -38,6 +38,9 @@ app.configure('production', function(){
 app.get('/', routes.index);
 
 
+app.post('/configuracao', function(request,response){
+	
+})
 
 
 app.post('/form', function(request, response){
@@ -46,18 +49,13 @@ app.post('/form', function(request, response){
 	var formulario;
 	var sql;	
 	
-	
-	
 	// Formulário guarda as informações vindas por POST
-	
 	formulario = request.body.form;
-	
 	//console.log(request.body.form);
 	data_atual = new Date();
 	data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
 	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ formulario['name'] +'","'+ data_atual +'")';
 	//console.log(sql);
-	 
 	for(var i in formulario){
 		 if(formulario[i].tipo == undefined){
     		console.log('nao eh campo');
@@ -65,8 +63,6 @@ app.post('/form', function(request, response){
     		console.log('eh campo');
     	}
 	} 
-	    
-   
 	//console.log(formulario);
     response.end();
 
