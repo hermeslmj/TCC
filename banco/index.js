@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var GerenciadorDeArquivos = require('../arquivos');
+
 function Banco(){
 	
 	
