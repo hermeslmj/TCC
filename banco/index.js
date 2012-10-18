@@ -3,23 +3,30 @@ var mysql = require('mysql');
 function Banco(){
 	
 	
-	/*Chama o Gerenciador de Arquivos, solicita a leitura do arquivo e pega ele em formato JSON*/
+	/*Chama o Gerenciador de Arquivos, solicita a leitura do arquivo e pega ele em formato JSON
 	gerArq = new GerenciadorDeArquivos();
 	gerArq.leArquivo('./arquivos/configuracao.json');
 	var arquivo = gerArq.retornaJSON();
-	/**/
+	*/
 	
 	
 	var conexao = null;	
+	
+}
+
+
+Banco.prototype.conect = function(user,password,host,banco){
 	this.conexao = mysql.createClient({
-		user: arquivo.user,
-		password: arquivo.password,
-		host: arquivo.host
+		user: user,
+		password: password,
+		host: host
 	});
 	this.conexao.query(
-		'USE ' + arquivo.db
+		'USE ' + banco
 	);
-}
+	
+} 
+
 
 Banco.prototype.insert = function(sql){
     this.conexao.query(
@@ -27,11 +34,11 @@ Banco.prototype.insert = function(sql){
 	);
 }
 
-Banco.prototype.edit = function(sql){
+Banco.prototype.update = function(sql){
 	
 }
 
-Banco.prototype.remove = function(sql){
+Banco.prototype.delete = function(sql){
 	
 }  
 
