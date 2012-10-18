@@ -31,6 +31,10 @@ GerenciadorDeArquivos.prototype.editarArquivo = function(nome,dados,caminho){
 	
 }
 
+GerenciadorDeArquivos.prototype.existeArquivo = function(caminho){
+	return fs.existsSync('../arquivos/configuracao.json');
+}
+
 
 
 module.exports = GerenciadorDeArquivos;
