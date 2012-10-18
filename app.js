@@ -5,14 +5,24 @@
 var express = require('express')
   , routes = require('./routes')
   , banco = require('./banco')
-  , arq = require('./arquivos');
+  , arquivo = require('./arquivos')
+  , requisicoes = require('./requisicoes');
+  
 
 var app = module.exports = express.createServer();
 
-// Configuration
-/*Inicialização de módulos importantes*/
+
+
+
+/*Inicialização de módulos importantes 
 var bd = new banco(); //criação do módulo de banco de dados. 
-/**/
+*/
+var GerenciadorDeRequisicao = new requisicoes();
+
+
+
+// Configuration
+
 
 
 app.configure(function(){
@@ -33,13 +43,14 @@ app.configure('production', function(){
 });
 
 
-// Routes
+// REQUISIÇÕES
 
 app.get('/', routes.index);
 
 
 app.post('/configuracao', function(request,response){
-	
+	GerenciadorDeRequisicao.configuracao(request,response);
+	response.end();
 })
 
 
