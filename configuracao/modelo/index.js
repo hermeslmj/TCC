@@ -1,38 +1,40 @@
-
+var moduloArquivos = require('./../../arquivos');
 function ModeloConfiguracao(){
 	var usuario;
 	var senha;
 	var banco;
 	var host;
-	var GerenciadorDeArquivos = require('../arquivos');
+	
 }
 
-ModeloConfiguracao.prototype.setNome = function(nome){
-	
+ModeloConfiguracao.prototype.setUsuario = function(usuario){
+	this.usuario = usuario;
 }
 ModeloConfiguracao.prototype.setSenha = function(senha){
-	
+	this.senha = senha;
 }
 ModeloConfiguracao.prototype.setBanco = function(banco){
-	
+	this.banco = banco;
 }
 ModeloConfiguracao.prototype.setHost = function(host){
-	
+	this.host = host;
 }
-ModeloConfiguracao.prototype.getNome = function(){
-	
+ModeloConfiguracao.prototype.getUsuario = function(){
+	return this.usuario;
 }
 ModeloConfiguracao.prototype.getSenha = function(){
-	
+	return this.senha;
 }
 ModeloConfiguracao.prototype.getBanco = function(){
-	
+	return this.banco;
 }
 ModeloConfiguracao.prototype.getHost = function(){
-	
+	return this.host;
 }
 ModeloConfiguracao.prototype.gravarConfiguracao = function(){
-	
+	var GerenciadorDeArquivos = new moduloArquivos();
+	var configuracao = "{ \"user:\" \""+this.usuario+"\", \"password:\" \""+this.password+"\" }";
+	console.log(configuracao);
 }
 ModeloConfiguracao.prototype.editarConfiguracao = function(){
 	
@@ -41,3 +43,4 @@ ModeloConfiguracao.prototype.apagarConfiguracao = function(){
 	
 }
 
+module.exports = ModeloConfiguracao;

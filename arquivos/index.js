@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 
 function GerenciadorDeArquivos(){
 	var arquivo;
@@ -32,7 +33,7 @@ GerenciadorDeArquivos.prototype.editarArquivo = function(nome,dados,caminho){
 }
 
 GerenciadorDeArquivos.prototype.existeArquivo = function(caminho){
-	return fs.existsSync('../arquivos/configuracao.json');
+	return path.existsSync('../arquivos/configuracao.json');
 }
 
 
