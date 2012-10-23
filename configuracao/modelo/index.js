@@ -33,8 +33,10 @@ ModeloConfiguracao.prototype.getHost = function(){
 }
 ModeloConfiguracao.prototype.gravarConfiguracao = function(){
 	var GerenciadorDeArquivos = new moduloArquivos();
-	var configuracao = "{ \"user:\" \""+this.usuario+"\", \"password:\" \""+this.password+"\" }";
-	console.log(configuracao);
+	var configuracao = "{ \"user\": \""+this.usuario+"\", \"password\": \""+this.senha+"\", \"db\": \""+this.banco+"\",\"host\": \""+this.host+"\" }";
+	
+	GerenciadorDeArquivos.criarArquivo('configuracao.json',configuracao,'./arquivos');
+	
 }
 ModeloConfiguracao.prototype.editarConfiguracao = function(){
 	

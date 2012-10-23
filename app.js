@@ -20,7 +20,6 @@ var bd = new banco(); //criação do módulo de banco de dados.
 var GerenciadorDeRequisicao = new requisicoes();
 
 
-
 // Configuration
 
 
