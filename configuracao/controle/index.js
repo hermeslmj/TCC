@@ -3,27 +3,34 @@ var moduloModeloConfiguracao = require("../modelo");
 
 
 function ControleConfiguracao(){
-	var modeloConfiguracao;
 	
+	this.modeloConfiguracao = new moduloModeloConfiguracao();
 	
 }
 
 ControleConfiguracao.prototype.novaConfiguracao =  function(usuario,senha,host,db){
-	modeloConfiguracao = new moduloModeloConfiguracao();
-	modeloConfiguracao.setUsuario(usuario);
-	modeloConfiguracao.setSenha(senha);
-	modeloConfiguracao.setHost(host);
-	modeloConfiguracao.setBanco(db);
-	//console.log(modeloConfiguracao.getUsuario());
-	//modeloConfiguracao.gravarConfiguracao();
 	
-	modeloConfiguracao.gravarConfiguracao();
+	this.modeloConfiguracao.setUsuario(usuario);
+	this.modeloConfiguracao.setSenha(senha);
+	this.modeloConfiguracao.setHost(host);
+	this.modeloConfiguracao.setBanco(db);
+	
+	this.modeloConfiguracao.gravarConfiguracao();
 }
-ControleConfiguracao.prototype.editarConfiguracao =  function(){
+ControleConfiguracao.prototype.editarConfiguracao =  function(usuario,senha,host,db){
+	this.modeloConfiguracao.setUsuario(usuario);
+	this.modeloConfiguracao.setSenha(senha);
+	this.modeloConfiguracao.setHost(host);
+	this.modeloConfiguracao.setBanco(db);
+	
+	this.modeloConfiguracao.apagarConfiguracao(); 
+	
+	this.modeloConfiguracao.gravarConfiguracao();
+	
 	
 }
 ControleConfiguracao.prototype.apagarConfiguracao =  function(){
-	
+	this.modeloConfiguracao.apagarConfiguracao();
 }
 
 module.exports = ControleConfiguracao;

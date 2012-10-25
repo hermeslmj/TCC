@@ -5,6 +5,8 @@ function ModeloConfiguracao(){
 	var banco;
 	var host;
 	
+	this.GerenciadorDeArquivos = new moduloArquivos();
+	
 }
 
 ModeloConfiguracao.prototype.setUsuario = function(usuario){
@@ -32,17 +34,18 @@ ModeloConfiguracao.prototype.getHost = function(){
 	return this.host;
 }
 ModeloConfiguracao.prototype.gravarConfiguracao = function(){
-	var GerenciadorDeArquivos = new moduloArquivos();
-	var configuracao = "{ \"user\": \""+this.usuario+"\", \"password\": \""+this.senha+"\", \"db\": \""+this.banco+"\",\"host\": \""+this.host+"\" }";
 	
-	GerenciadorDeArquivos.criarArquivo('configuracao.json',configuracao,'./arquivos');
+	var configuracao;
+	
+	configuracao = "{ \"user\": \""+this.usuario+"\", \"password\": \""+this.senha+"\", \"db\": \""+this.banco+"\",\"host\": \""+this.host+"\" }";
+	
+	this.GerenciadorDeArquivos.criarArquivo('configuracao.json',configuracao,'./arquivos');
 	
 }
-ModeloConfiguracao.prototype.editarConfiguracao = function(){
-	
-}
+
 ModeloConfiguracao.prototype.apagarConfiguracao = function(){
 	
+	this.GerenciadorDeArquivos.apagarArquivo('configuracao.json','./arquivos');
 }
 
 module.exports = ModeloConfiguracao;

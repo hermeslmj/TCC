@@ -2,24 +2,27 @@ var arquivos = require('../arquivos');
 var controle = require('../configuracao/controle');	
 
 function GerenciadorDeRequisicao(){
-	var controleDeConfiguracao;
-	var GerenciadorDeArquivos;
+	this.GerenciadorDeArquivos = new arquivos();
+	this.controleDeConfiguracao = new controle();
 }
 
 GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 	
-	GerenciadorDeArquivos = new arquivos();
-	controleDeConfiguracao = new controle();
+	
 	var conf = request.body;
 	
-	controleDeConfiguracao.novaConfiguracao(conf.banco['usuario'],conf.banco['senha'],'localhost',conf.banco['nome']);
-	
-	/*console.log(GerenciadorDeArquivos);
-	if(GerenciadorDeArquivos.existeArquivo('../arquivos/configuracao.json')){
-		console.log('nova config');	
+	console.log(conf);
+	if(this.GerenciadorDeArquivos.existeArquivo('./arquivos/configuracao.json')){
+		this.controleDeConfiguracao.editarConfiguracao(conf.banco['usuario'],conf.banco['senha'],'localhost',conf.banco['nome']);
+		console.log('velha');
 	}else{
-		console.log('velha config');
-	}*/
+		console.log('nova');
+		this.controleDeConfiguracao.novaConfiguracao(conf.banco['usuario'],conf.banco['senha'],'localhost',conf.banco['nome']);	
+	}
+	
+	
+	
+	
 	
 	
 	

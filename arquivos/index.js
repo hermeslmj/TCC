@@ -21,11 +21,7 @@ GerenciadorDeArquivos.prototype.criarArquivo = function(nome,dados,caminho){
 }
 
 GerenciadorDeArquivos.prototype.apagarArquivo = function(nome,caminho){
-	fs.unlink(caminho+'/'+nome, function(err){
-		if(err){
-			console.log(err);
-		}
-	});
+	fs.unlinkSync(caminho+'/'+nome);
 }
 
 GerenciadorDeArquivos.prototype.editarArquivo = function(nome,dados,caminho){
@@ -33,7 +29,7 @@ GerenciadorDeArquivos.prototype.editarArquivo = function(nome,dados,caminho){
 }
 
 GerenciadorDeArquivos.prototype.existeArquivo = function(caminho){
-	return path.existsSync('../arquivos/configuracao.json');
+	return path.existsSync(caminho);
 }
 
 
