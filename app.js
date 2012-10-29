@@ -44,21 +44,25 @@ app.configure('production', function(){
 
 // REQUISIÇÕES
 
+
+//Requisições de página via GET
 app.get('/', routes.index);
+app.get('/configuracao', function(request,response){
+	GerenciadorDeRequisicao.configuracao(request,response);
+	
+})
 
 
-app.post('/configuracao', function(request,response){
+//Requisições de página via POST
+
+app.post('/gerenciarconfiguracao', function(request,response){
 	GerenciadorDeRequisicao.configuracao(request,response);
 	response.end();
 })
 
-
-app.post('/form', function(request, response){
-
-	
+app.post('/gerenciarformulario', function(request, response){
 	var formulario;
 	var sql;	
-	
 	// Formulário guarda as informações vindas por POST
 	formulario = request.body.form;
 	//console.log(request.body.form);
@@ -75,7 +79,6 @@ app.post('/form', function(request, response){
 	} 
 	//console.log(formulario);
     response.end();
-
 });
 
 // Fim Routes
