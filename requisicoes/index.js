@@ -10,51 +10,27 @@ function GerenciadorDeRequisicao(){
 
 
 GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
-	/*
-	 
-	 div.main
- div.header
-  div.header_resize
-   div.menu_nav
-   div.logo
-    h1
-     a(href="#") Gerenciador de Formulários
-      small Mais simples impossível
-   div.crl
- div.content
-  div.content_resize
-   div.mainbar
-    div.article#principal
-     h2.star
-      span #{title}
-     p Bem vindo ao gerenciador de formulários. Se a primeira vez que você usa está ferramenta clique 
-      a(href='doc.html') aqui 
-      para ter acesso a documentação.
-   div.sidebar
-    div.gadget
-     h2.star
-      span Menu Lateral
-     div.clr
-     ul.sb_menu
-      li: a(href='formularios.html') Formulários
-      li: a(href='configuracao') Configurações
-      li: a(href='doc.html') Documentação
- div.clr
- div.fbg
-  div.fbg_resize
-   div.col.c1
-   div.col.c2
-   div.col.c3
-   div.clr
- div.footer
-  div.footer_resive
-   div.clr
-
-    
-    
-    
-   */
-	
+	var host;
+	var user;
+	var password;
+	var db;
+		
+		
+	if(this.GerenciadorDeArquivos.existeArquivo('arquivos/configuracao.json')){
+		 this.GerenciadorDeArquivos.leArquivo('arquivos/configuracao.json');
+		 var dados = this.GerenciadorDeArquivos.retornaJSON();
+		 
+		 host = dados.host;
+		 user = dados.user;
+		 password = dados.password;
+		 db = dados.db;
+		 
+	}else{
+		 host = "";
+		 user = "";
+		 password = "";
+		 db = "";
+	}
 	var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
 				+
 				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
@@ -97,7 +73,8 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				+
 				"</div>" //fim do div header_resize
 				+
-				
+				"</div>"
+				+
 				"</div>" //fim do div header
 				+
 				"<div class=content>"
@@ -110,7 +87,7 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				+
 				"<h2 class=star><span>Configuração</span></h2>"
 				+
-				"<form method=\"post\" action=\"/configuracao\">"
+				"<form method=\"post\" action=\"/gerenciarConfiguracao\">"
 				
 				+
 				"<fieldset>"
@@ -129,7 +106,7 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				+
 				"<td>"
 				+
-				"<input type=\"text\" name=\"banco[nome]\" />"
+				"<input type=\"text\" name=\"banco[nome]\" value="+db+" />"
 				+
 				"</td>"
 				+
@@ -145,7 +122,7 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				+
 				"<td>"
 				+
-				"<input type=\"text\" name=\"banco[usuario]\"  />"
+				"<input type=\"text\" name=\"banco[usuario]\"  value="+user+" />"
 				+
 				"</td>"
 				+
@@ -161,7 +138,7 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				+
 				"<td>"
 				+
-				"<input type=\"password\" name=\"banco[senha]\"  />"
+				"<input type=\"password\" name=\"banco[senha]\" value="+password+"  />"
 				+
 				"</td>"
 				+
@@ -195,11 +172,11 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				+
 				"<ul class=sb_menu>"
 				+
-				"<li><a>Formulários</a></li>"
+				"<li><a href='formularios'>Formulários</a></li>"
 				+
-				"<li><a>Configuração</a></li>"
+				"<li><a href='configuracao'>Configuração</a></li>"
 				+
-				"<li><a>Documentação</a></li>"
+				"<li><a href='documentacao'>Documentação</a></li>"
 				+
 				"</ul>"
 				+
@@ -239,14 +216,14 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				"</div>"
 				+
 				"</div>" //fim footer
-				+
-				"</div>"
+				
+				
 				
 				+
 				"</body>"
 				+
 				"</html>";
-				console.log(html);
+				
 	response.write(html);
 	response.end();
 }

@@ -46,7 +46,9 @@ app.configure('production', function(){
 
 
 //Requisições de página via GET
+
 app.get('/', routes.index);
+
 app.get('/configuracao', function(request,response){
 	GerenciadorDeRequisicao.configuracao(request,response);
 	
@@ -56,7 +58,7 @@ app.get('/configuracao', function(request,response){
 //Requisições de página via POST
 
 app.post('/gerenciarconfiguracao', function(request,response){
-	GerenciadorDeRequisicao.configuracao(request,response);
+	GerenciadorDeRequisicao.gerenciarConfiguracao(request,response);
 	response.end();
 })
 
