@@ -1,15 +1,7 @@
 var mysql = require('mysql');
 
 function Banco(){
-	
-	
-	/*Chama o Gerenciador de Arquivos, solicita a leitura do arquivo e pega ele em formato JSON
-	gerArq = new GerenciadorDeArquivos();
-	gerArq.leArquivo('./arquivos/configuracao.json');
-	var arquivo = gerArq.retornaJSON();
-	*/
-	
-	
+
 	var conexao = null;	
 	
 }
@@ -35,11 +27,15 @@ Banco.prototype.insert = function(sql){
 }
 
 Banco.prototype.update = function(sql){
-	
+	 this.conexao.query(
+		sql
+	);
 }
 
-Banco.prototype.delete = function(sql){
-	
+Banco.prototype.remove = function(sql){
+	 this.conexao.query(
+		sql
+	);
 }  
 
 

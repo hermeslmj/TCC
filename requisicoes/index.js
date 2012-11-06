@@ -246,7 +246,175 @@ GerenciadorDeRequisicao.prototype.gerenciarConfiguracao = function(request,respo
 
 /*Formulário*/
 GerenciadorDeRequisicao.prototype.formulario = function(request,response){
-	console.log('FORMULARIO');
+	var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
+				+
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
+				+
+				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
+				+
+				"<title>Configuração</title>"
+				+
+				"<meta name=\"author\" content=\"Hermes\" />"
+				+
+				"<link rel=\"stylesheet\" href=\"/stylesheets/style.css\">"
+				+
+				"<script src='/javascripts/jquery.js' type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/principal.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/cufon-yui.js\"></script>"
+				+
+				"<script src=\"/javascripts/arial.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/cuf_run.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/radius.js\" type=\"text/javascript\"></script>"
+ 				+
+				"</head>"
+				+
+				"<body>"
+				+
+				"<div class=main>"
+				+
+				"<div class=header>"
+				+
+				"<div class=header_resize>"
+				+
+				"<div class=menu_nav></div>"
+				+
+				"<div class=logo><h1><a href='#'>Gerenciador de formulários</a><small>Mais simples impossível</small></h1></div>"
+				+
+				"<div class=clr>"				
+				+
+				"</div>" //fim do div header_resize
+				+
+				"</div>"
+				+
+				"</div>" //fim do div header
+				+
+				"<div class=content>"
+				+
+				"<div class=content_resize>"
+				+
+				"<div class=mainbar>"
+				+
+				"<div class=article id=principal>"
+			
+				+
+				"<h2 class=\"star\"><span>Formulários</span> </h2>"
+				+
+				"<input type=\"button\" id='novo' value=\"Novo\" />"
+				+
+				"<table class='tabela'>"
+				+
+						"<tr style=\" background-color: #EEE9E9; color:#000000 \">"
+				+
+						"<td style=\"width: 10%\"></td>"
+				+
+						"<td style=\"width: 50%\">Nome</td>"
+				+
+						"<td style=\"width: 20%\">Dados</td>"
+				+
+						"<td style=\"width: 20% \">Ultimo Envio</td>"
+				+
+						"</tr>"
+				+	
+				"<tr style=\" color:#000000 \">"
+				+
+				"<td></td>"
+				+
+				"<td> Formulário 1<div><a href=\"#\">Editar</a> <a href=\"#\">Excluir</a> <a href=\"#\">Dados</a></div></td>"
+				+
+						"<td> 30</td>"
+				+
+						"<td>07-05-2012</td>"
+				+		
+					"</tr>"
+				+
+					"<tr style=\"background-color: #EEE9E9; color:#000000\">"
+				+
+						"<td></td>"
+				+
+						"<td>Formulário 2<br><div><a href=\"#\"> Editar</a> <a href=\"#\">Excluir</a> <a href=\"#\">Dados</a></div></td>"
+				+
+						"<td>0</td>"
+				+
+						"<td></td>"
+				+
+					"</tr>"
+				+
+				"</table>"
+				+
+				"</div>" //fim do article
+				+
+				"</div>" //fim do mainbar
+				+
+				"<div class=sidebar>"
+				+
+				"<div class=gadget>"
+				+
+				"<h2><span>Menu Lateral</span></h2>"
+				+
+				"<div class=clr></div>"
+				+
+				"<ul class=sb_menu>"
+				+
+				"<li><a href='formularios'>Formulários</a></li>"
+				+
+				"<li><a href='configuracao'>Configuração</a></li>"
+				+
+				"<li><a href='documentacao'>Documentação</a></li>"
+				+
+				"</ul>"
+				+
+				"</div>" // fim do gadget
+				+
+				"</div>" // fim do sidebar
+				
+				+
+				"</div>" //fim do content_resize
+				+
+				"</div>" //fim do div content
+				+
+				"<div class=clr></div>"
+				+
+				"<div class=fbg>"
+				+
+				"<div class=fbg_resize>"
+				+
+				"<div class='col c1'></div>"
+				+
+				"<div class='col c2'></div>"
+				+
+				"<div class='col c3'></div>"
+				+
+				"<div class=clr></div>"
+				+
+				"</div>" //fim do fbg_resize
+				+
+				"</div>" // fim do fbg
+				+
+				"<div class=footer>"
+				+
+				"<div class=footer_resive>"
+				+
+				"<div class=clr></div>"
+				+
+				"</div>"
+				+
+				"</div>" //fim footer
+				
+				
+				
+				+
+				"</body>"
+				+
+				"</html>";
+				
+							
+	response.write(html);
+	response.end();
+
 }
 
 module.exports = GerenciadorDeRequisicao;

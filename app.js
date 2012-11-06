@@ -52,7 +52,11 @@ app.get('/', routes.index);
 app.get('/configuracao', function(request,response){
 	GerenciadorDeRequisicao.configuracao(request,response);
 	
-})
+});
+
+app.get('/formularios', function(request,response){
+	GerenciadorDeRequisicao.formulario(request,response);
+});
 
 
 //Requisições de página via POST
