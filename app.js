@@ -75,7 +75,7 @@ app.post('/gerenciarformulario', function(request, response){
 	data_atual = new Date();
 	data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
 	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ formulario['name'] +'","'+ data_atual +'")';
-	//console.log(sql);
+	console.log(formulario);
 	for(var i in formulario){
 		 if(formulario[i].tipo == undefined){
     		console.log('nao eh campo');

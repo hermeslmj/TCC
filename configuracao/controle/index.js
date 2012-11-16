@@ -14,22 +14,22 @@ ControleConfiguracao.prototype.novaConfiguracao =  function(usuario,senha,host,d
 	this.modeloConfiguracao.setSenha(senha);
 	this.modeloConfiguracao.setHost(host);
 	this.modeloConfiguracao.setBanco(db);
-	
 	this.modeloConfiguracao.gravarConfiguracao();
+	
 }
 ControleConfiguracao.prototype.editarConfiguracao =  function(usuario,senha,host,db){
+	
 	this.modeloConfiguracao.setUsuario(usuario);
 	this.modeloConfiguracao.setSenha(senha);
 	this.modeloConfiguracao.setHost(host);
 	this.modeloConfiguracao.setBanco(db);
-	
 	this.modeloConfiguracao.apagarConfiguracao(); 
-	
 	this.modeloConfiguracao.gravarConfiguracao();
 	
 	
 }
 ControleConfiguracao.prototype.apagarConfiguracao =  function(){
+	
 	this.modeloConfiguracao.apagarConfiguracao();
 }
 

@@ -216,9 +216,6 @@ GerenciadorDeRequisicao.prototype.configuracao = function(request,response){
 				"</div>"
 				+
 				"</div>" //fim footer
-				
-				
-				
 				+
 				"</body>"
 				+
@@ -416,5 +413,11 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 	response.end();
 
 }
+
+GerenciadorDeRequisicao.prototype.gerenciarFormulario = function(request,response){
+	
+}
+
+
 
 module.exports = GerenciadorDeRequisicao;
