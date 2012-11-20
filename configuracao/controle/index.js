@@ -33,4 +33,8 @@ ControleConfiguracao.prototype.apagarConfiguracao =  function(){
 	this.modeloConfiguracao.apagarConfiguracao();
 }
 
+ControleConfiguracao.prototype.carregarConfiguracao = function(){
+	
+}
+
 module.exports = ControleConfiguracao;

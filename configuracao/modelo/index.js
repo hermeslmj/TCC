@@ -48,4 +48,15 @@ ModeloConfiguracao.prototype.apagarConfiguracao = function(){
 	this.GerenciadorDeArquivos.apagarArquivo('configuracao.json','./arquivos');
 }
 
+ModeloConfiguracao.prototype.carregarConfiguracao = function(){
+	var dados;
+	this.GerenciadorDeArquivos.leArquivo('./arquivos/configuracao.json');
+	dados = this.GerenciadorDeArquivos.retornaJSON();
+	
+	this.setHost(dados.host);
+	this.setSenha(dados.password);
+	this.setUsuario(dados.user);
+	this.setBanco(dados.db);
+}
+
 module.exports = ModeloConfiguracao;
