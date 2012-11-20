@@ -38,6 +38,10 @@ Banco.prototype.remove = function(sql){
 	);
 }  
 
+Banco.prototype.select = function(sql,acao){
+	this.conexao.query(sql, acao(err, rows));  	
+}
+
 
 module.exports = Banco;
 

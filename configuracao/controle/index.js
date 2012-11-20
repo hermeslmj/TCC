@@ -34,7 +34,17 @@ ControleConfiguracao.prototype.apagarConfiguracao =  function(){
 }
 
 ControleConfiguracao.prototype.carregarConfiguracao = function(){
+	this.modeloConfiguracao.carregarConfiguracao();
+}
+
+ControleConfiguracao.prototype.retornaConfiguracao = function(){
+	this.carregarConfiguracao();
 	
+	var configuracao;
+	
+	configuracao = "{ \"user\": \""+this.modeloConfiguracao.getUsuario()+"\", \"password\": \""+this.modeloConfiguracao.getSenha()+"\", \"db\": \""+this.modeloConfiguracao.getBanco()+"\",\"host\": \""+this.modeloConfiguracao.getHost()+"\" }";
+	
+	return JSON.parse(configuracao);
 }
 
 module.exports = ControleConfiguracao;
