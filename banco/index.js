@@ -2,7 +2,8 @@ var mysql = require('mysql');
 
 function Banco(){
 
-	var conexao = null;	
+	var conexao = null;
+	var resultado = null;
 	
 }
 
@@ -24,9 +25,9 @@ Banco.prototype.insert = function(sql){
     this.conexao.query(
 		sql
 	);
-}
 
 Banco.prototype.update = function(sql){
+}
 	 this.conexao.query(
 		sql
 	);
@@ -36,10 +37,33 @@ Banco.prototype.remove = function(sql){
 	 this.conexao.query(
 		sql
 	);
-}  
+}
 
-Banco.prototype.select = function(sql,acao){
-	this.conexao.query(sql, acao(err, rows));  	
+
+
+
+Banco.prototype.select = function(sql){
+	console.log('entrei select');
+	
+	console.log(this.resultado);
+	this.conexao.query(sql, function(err,rows){
+		for(var i in rows){
+			this.resultado +=  rows[i];
+		}	
+		
+	console.log(rows);
+
+	});
+	
+	
+		
+
+	
+}
+
+Banco.prototype.retornaResultado = function(){
+	console.log('retorna resultado'+this.resultado);
+	//return this.resultado;
 }
 
 
