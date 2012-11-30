@@ -1,9 +1,10 @@
 var mysql = require('mysql');
-
+var self = this;
 function Banco(){
 
 	var conexao = null;
-	var resultado = null;
+	
+	
 	
 }
 
@@ -42,18 +43,21 @@ Banco.prototype.remove = function(sql){
 
 
 
-Banco.prototype.select = function(sql){
-	console.log('entrei select');
+Banco.prototype.select = function(sql,cb){
 	
-	console.log(this.resultado);
-	this.conexao.query(sql, function(err,rows){
-		for(var i in rows){
-			this.resultado +=  rows[i];
-		}	
+ 	resultado = 0;
+	
+	return this.conexao.query(sql,function(err,fields,result){
+		//
+		 resultado =  (cb(fields)).id;
+	
 		
-	console.log(rows);
+			
+	})	
+	//console.log(resultado);
 
-	});
+
+	
 	
 	
 		

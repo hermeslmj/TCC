@@ -3,20 +3,32 @@ var banco = require('./../../banco');
 function ModeloFormulario(){
 	var nome;
 	var campos;
+	
 } 
 
-ModeloFormulario.prototype.inserir = function(dados){
-	var bd = new banco();
+ModeloFormulario.prototype.cb = function(r){
 	
+	return r;
+}
+
+ModeloFormulario.prototype.inserir = function(dados){
+	var db = new banco();
+	db.conect('root','root','localhost','tcc');
 	data_atual = new Date();
 	data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
 	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ dados['name'] +'","'+ data_atual +'")';
-	campos = Array();
+	
+	//db.insert(sql);
+	
+	var t = db.select('SELECT MAX(id) as id FROM formulario',this.cb);
+	
+	console.log(t);
+	
 	var marcador,tipo,obrigatorio;
 		
 	for(var i in dados){
 		 if(dados[i].tipo == undefined){
-    		console.log('nao eh campo');
+    	//	console.log('nao eh campo');
     	}else{
     		switch(dados[i].tipo){
     			case 'texto':
