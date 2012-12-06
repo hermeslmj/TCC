@@ -1,23 +1,26 @@
 var mysql = require('mysql');
 var self = this;
 function Banco(){
-
 	var conexao = null;
-	
-	
-	
 }
 
 
 Banco.prototype.conect = function(user,password,host,banco){
-	this.conexao = mysql.createClient({
+	this.conexao = mysql.createConnection({
 		user: user,
 		password: password,
-		host: host
+		host: host,
+		database: banco
 	});
-	this.conexao.query(
+	
+	/*this.conexao.query(
 		'USE ' + banco
-	);
+	);*/
+	this.conexao.connect(function(err){
+		if(err){
+			console.log('Algo deu errado:'+err);
+		}
+	})
 	
 } 
 
@@ -39,34 +42,18 @@ Banco.prototype.remove = function(sql){
 		sql
 	);
 }
-
-
-
-
 Banco.prototype.select = function(sql,cb){
-	
- 	resultado = 0;
-	
-	return this.conexao.query(sql,function(err,fields,result){
-		//
-		 resultado =  (cb(fields)).id;
-	
+	this.conexao.query(sql,function(err,results){
+		cb(results);
+	});
 		
-			
-	})	
-	//console.log(resultado);
-
-
 	
-	
-	
-		
-
+	 	
 	
 }
 
 Banco.prototype.retornaResultado = function(){
-	console.log('retorna resultado'+this.resultado);
+	console.log('retorna resultado'+this.res);
 	//return this.resultado;
 }
 

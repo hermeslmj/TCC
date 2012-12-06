@@ -13,6 +13,7 @@ ModeloFormulario.prototype.cb = function(r){
 
 ModeloFormulario.prototype.inserir = function(dados){
 	var db = new banco();
+	 res = null;
 	db.conect('root','root','localhost','tcc');
 	data_atual = new Date();
 	data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
@@ -20,9 +21,15 @@ ModeloFormulario.prototype.inserir = function(dados){
 	
 	//db.insert(sql);
 	
-	var t = db.select('SELECT MAX(id) as id FROM formulario',this.cb);
+	db.select('SELECT MAX(id) as id from formulario',function(r){
+		
+		console.log(r[0].id);
+		
+	});
 	
-	console.log(t);
+	
+	
+	
 	
 	var marcador,tipo,obrigatorio;
 		
