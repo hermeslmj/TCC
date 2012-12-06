@@ -5,12 +5,14 @@ function Banco(){
 }
 
 
+
 Banco.prototype.conect = function(user,password,host,banco){
 	this.conexao = mysql.createConnection({
 		user: user,
 		password: password,
 		host: host,
 		database: banco
+		
 	});
 	
 	/*this.conexao.query(
@@ -29,9 +31,9 @@ Banco.prototype.insert = function(sql){
     this.conexao.query(
 		sql
 	);
-
-Banco.prototype.update = function(sql){
 }
+Banco.prototype.update = function(sql){
+
 	 this.conexao.query(
 		sql
 	);
@@ -44,7 +46,9 @@ Banco.prototype.remove = function(sql){
 }
 Banco.prototype.select = function(sql,cb){
 	this.conexao.query(sql,function(err,results){
+		
 		cb(results);
+		
 	});
 		
 	
@@ -53,7 +57,7 @@ Banco.prototype.select = function(sql,cb){
 }
 
 Banco.prototype.retornaResultado = function(){
-	console.log('retorna resultado'+this.res);
+	console.log('retorna resultado'+self.res);
 	//return this.resultado;
 }
 
