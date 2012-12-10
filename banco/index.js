@@ -27,10 +27,16 @@ Banco.prototype.conect = function(user,password,host,banco){
 } 
 
 
-Banco.prototype.insert = function(sql){
-    this.conexao.query(
-		sql
-	);
+Banco.prototype.insert = function(sql,funcao,dados){
+	console.log(sql);
+    this.conexao.query(sql,function(err,result){
+    	if(err){
+    		console.log(err);
+    	}
+    	funcao(result.insertId,dados)
+    });
+    	
+    
 }
 Banco.prototype.update = function(sql){
 
@@ -45,9 +51,9 @@ Banco.prototype.remove = function(sql){
 	);
 }
 Banco.prototype.select = function(sql,cb){
-	this.conexao.query(sql,function(err,results){
+	this.conexao.query(sql,function(err,result){
 		
-		cb(results);
+		cb(result);
 		
 	});
 		
@@ -56,12 +62,9 @@ Banco.prototype.select = function(sql,cb){
 	
 }
 
-Banco.prototype.retornaResultado = function(){
-	console.log('retorna resultado'+self.res);
-	//return this.resultado;
+Banco.prototype.encerrar = function (){
+	this.conexao.end()	
 }
-
-
 module.exports = Banco;
 
 
