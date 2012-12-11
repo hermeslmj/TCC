@@ -50,7 +50,7 @@ Banco.prototype.remove = function(sql){
 		sql
 	);
 }
-Banco.prototype.select = function(sql,cb){
+Banco.prototype.select = function(sql,funcao){
 	this.conexao.query(sql,function(err,result){
 		
 		cb(result);
