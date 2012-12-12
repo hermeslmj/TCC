@@ -28,7 +28,7 @@ Banco.prototype.conect = function(user,password,host,banco){
 
 
 Banco.prototype.insert = function(sql,funcao,dados){
-	console.log(sql);
+
     this.conexao.query(sql,function(err,result){
     	if(err){
     		console.log(err);
@@ -60,6 +60,10 @@ Banco.prototype.select = function(sql,funcao){
 	
 	 	
 	
+}
+
+Banco.prototype.executar = function(sql){
+	this.conexao.query(sql);
 }
 
 Banco.prototype.encerrar = function (){

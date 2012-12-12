@@ -1,6 +1,16 @@
 var banco = require('./../../banco');
 var configuracao = require('./../../configuracao/controle/');
 
+String.prototype.replaceAll = function(de, para){
+    var str = this;
+    var pos = str.indexOf(de);
+    while (pos > -1){
+		str = str.replace(de, para);
+		pos = str.indexOf(de);
+	}
+    return (str);
+}
+
 function ModeloFormulario(){
 	var nome;
 	var campos;
@@ -40,35 +50,37 @@ function inserirCampoEspecifico(idCampo,dados){
 	var c = config.retornaConfiguracao();	
 	db.conect(c.user,c.password,c.host,c.db);
 	
+	
+	
 	switch(dados[0]){
 		case 'texto':
 			var sqlespecifico = "INSERT INTO texto(id,tamanho,validacao) VALUES("+idCampo+","+dados[1]+",'"+dados[2]+"')";
 			db.insert(sqlespecifico,function(id,dados){
-				console.log(id);
+				//console.log(id);
 			},null);	
 		break;
 		case 'area':
 			var sqlespecifico = "INSERT INTO areaTexto(id,largura,altura) VALUES("+idCampo+","+dados[1]+","+dados[2]+")";
 			db.insert(sqlespecifico,function(id,dados){
-				console.log(id);
+				//console.log(id);
 			},null);	
 		break;
 		case 'upload':
 			var sqlespecifico = "INSERT INTO upload(id,caminho) VALUES("+idCampo+",'"+dados[1]+"')";
 			db.insert(sqlespecifico,function(id,dados){
-				console.log(id);
+				//console.log(id);
 			},null);	
 		break;
 		case 'lista':
 			var sqlespecifico = "INSERT INTO lista(id,opcoes) VALUES("+idCampo+",'"+dados[1]+"')";
 			db.insert(sqlespecifico,function(id,dados){
-				console.log(id);
+				//console.log(id);
 			},null);	
 		break;
 		case 'marcacao':
 			var sqlespecifico = "INSERT INTO caixa(id,multipla,opcoes) VALUES("+idCampo+",'"+dados[1]+"','"+dados[2]+"')";
 			db.insert(sqlespecifico,function(id,dados){
-				console.log(id);
+				//console.log(id);
 			},null);	
 		break;
 	}
@@ -90,7 +102,7 @@ function inserirCampos(idForm,dados){
 	var sqlcampo,sqlespecifico;
 	/*console.log('chamei inserir campo para o form:'+idForm+" com os dados:");
 	console.log(dados);*/
-	
+	var table = "CREATE TABLE frm"+idForm+"( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY";
 	
 	for(var i in dados){
 		 if(dados[i].tipo == undefined){
@@ -109,6 +121,14 @@ function inserirCampos(idForm,dados){
     				arg.push(tamanho);
     				arg.push(validacao);
     				
+    				if(tamanho == 0){
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
+    					table += ", "+marcador+" BLOB "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    				} else{
+    					table += ","+marcador+" VARCHAR("+ tamanho +") "+((obrigatorio == 1) ? "NOT NULL" : "");
+    				}
+    				
 	    				
     				//sqlespecifico = "INSERT INTO texto(id,tamanho,validacao) VALUES(0,"+tamanho+",'"+validacao+"')";
     				
@@ -116,7 +136,7 @@ function inserirCampos(idForm,dados){
     			break;
     			
     			case 'area':
-    				console.log('INSERIR AREA');
+     				
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
@@ -129,11 +149,13 @@ function inserirCampos(idForm,dados){
     				arg.push(largura);
     				arg.push(altura);
     				
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    					
     				db.insert(sqlcampo,inserirCampoEspecifico,arg);
     			break;
     			
     			case 'upload':
-    			console.log('INSERIR UPLOAD');
+    			
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
@@ -144,12 +166,14 @@ function inserirCampos(idForm,dados){
     				arg.push('upload');
     				arg.push(caminho);
     				
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    				
     				db.insert(sqlcampo,inserirCampoEspecifico,arg);
     				
     			break;
     			
     			case 'lista':
-    			console.log('INSERIR LISTA');
+    			
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
@@ -160,11 +184,13 @@ function inserirCampos(idForm,dados){
     				arg.push('lista');
     				arg.push(opcoes);
     				
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
+    				
     				db.insert(sqlcampo,inserirCampoEspecifico,arg);
     			break;
     			
     			case 'marcacao':
-    			console.log('INSERIR MARCACAO');
+    			
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
@@ -177,13 +203,16 @@ function inserirCampos(idForm,dados){
     				arg.push(multipla);
     				arg.push(opcoes);
     				
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
+    				
 					db.insert(sqlcampo,inserirCampoEspecifico,arg);
     			break;
     			
     		}
     	}
-	}	
-	
+	}
+	table += ");"	
+	console.log(table);
 }
 
 
