@@ -419,7 +419,9 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 
 GerenciadorDeRequisicao.prototype.gerenciarFormulario = function(request,response){
 	this.controleDeFormulario.novoFormulario(request,response);
+	response.write("<script type='text/javascript	'>window.location.href = '/'</script>");
 	response.end();
+	
 }
 
 

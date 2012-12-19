@@ -149,6 +149,9 @@ function inserirCampos(idForm,dados){
     				arg.push(largura);
     				arg.push(altura);
     				
+    				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
     				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
     					
     				db.insert(sqlcampo,inserirCampoEspecifico,arg);
@@ -166,6 +169,8 @@ function inserirCampos(idForm,dados){
     				arg.push('upload');
     				arg.push(caminho);
     				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
     				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
     				
     				db.insert(sqlcampo,inserirCampoEspecifico,arg);
@@ -184,6 +189,8 @@ function inserirCampos(idForm,dados){
     				arg.push('lista');
     				arg.push(opcoes);
     				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
     				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
     				
     				db.insert(sqlcampo,inserirCampoEspecifico,arg);
@@ -203,6 +210,8 @@ function inserirCampos(idForm,dados){
     				arg.push(multipla);
     				arg.push(opcoes);
     				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
     				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
     				
 					db.insert(sqlcampo,inserirCampoEspecifico,arg);
@@ -213,6 +222,7 @@ function inserirCampos(idForm,dados){
 	}
 	table += ");"	
 	console.log(table);
+	db.executar(table);
 }
 
 
