@@ -23,7 +23,7 @@ ModeloFormulario.prototype.inserir = function(dados){
 	this.db.conect(c.user,c.password,c.host,c.db);  
 	//db.conect('root','root','localhost','tcc');
 	data_atual = new Date();
-	data_atual = data_atual.getFullYear()+'-'+data_atual.getMonth()+'-'+data_atual.getDay();
+	data_atual = data_atual.getDay()+'-'+data_atual.getMonth()+'-'+data_atual.getFullYear();
 	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ dados['name'] +'","'+ data_atual +'")';
 	
 	this.db.insert(sql,inserirCampos,dados);
@@ -225,8 +225,58 @@ function inserirCampos(idForm,dados){
 	db.executar(table);
 }
 
+function montarCampo(campo,response){
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	switch(campo.tipo){
+		case 'texto':
+			var sql = "SELECT * FROM texto WHERE id = "+campo.id;
+			db.selectResponse(sql,response,function(result){
+				console.log('entrei');
+				response.write("<h1>teste</h1><form><label for="+campo.nome+">"+campo.nome+"</label>  </form>");
+				response.write("<h2>INSERINDO OUTRA SAIDA.</h2>")
+				response.end();
+			})
+				
+			
+		break;
+	}
+	
+}
 
 
+ModeloFormulario.prototype.montarFormulario = function(request,response){
+	
+	
+	
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	var sql = 'SELECT c.id,c.nome,c.tipo,c.obrigatorio FROM formulario f JOIN campo c ON c.id_formulario = f.id WHERE f.id ='+request.query.id;
+	//console.log(sql);
+	db.selectResponse(sql,response,function(result){
+	
+	
+	
+	var campos  = result;
+	var numCampos = result.length;
+	
+	
+		
+		for(var i = 0; i < numCampos; i++){
+			//var sql = "SELECT ";
+			var campo  = campos[i];
+			montarCampo(campo,response);
+		}
+		//console.log(result);
+		
+			
+	});
+		
+}
 
 
 module.exports = ModeloFormulario;

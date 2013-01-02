@@ -52,14 +52,14 @@ Banco.prototype.remove = function(sql){
 }
 Banco.prototype.select = function(sql,funcao){
 	this.conexao.query(sql,function(err,result){
-		
-		cb(result);
-		
+			funcao(result);
 	});
-		
-	
-	 	
-	
+}
+
+Banco.prototype.selectResponse = function(sql,response,funcao){
+	this.conexao.query(sql,function(err,response,result){
+			funcao(response,result);
+	});
 }
 
 Banco.prototype.executar = function(sql){

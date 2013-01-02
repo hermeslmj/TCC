@@ -246,7 +246,13 @@ GerenciadorDeRequisicao.prototype.gerenciarConfiguracao = function(request,respo
 
 /*Formulário*/
 GerenciadorDeRequisicao.prototype.formulario = function(request,response){
-	var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
+	var bd = new banco();
+	var config =  this.controleDeConfiguracao.retornaConfiguracao();
+	bd.conect(config.user,config.password,config.host,config.db);
+	var sql = "SELECT * FROM formulario";
+	bd.selectResponse(sql,response,function(result){
+		
+		var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
 				+
 				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
 				+
@@ -312,38 +318,47 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 						"<td style=\"width: 10%\"></td>"
 				+
 						"<td style=\"width: 50%\">Nome</td>"
-				+
-						"<td style=\"width: 20%\">Dados</td>"
+									
 				+
 						"<td style=\"width: 20% \">Ultimo Envio</td>"
 				+
 						"</tr>"
-				+	
-				"<tr style=\" color:#000000 \">"
-				+
-				"<td></td>"
-				+
-				"<td> Formulário 1<div><a href=\"#\">Editar</a> <a href=\"#\">Excluir</a> <a href=\"#\">Dados</a></div></td>"
-				+
-						"<td> 30</td>"
-				+
-						"<td>07-05-2012</td>"
-				+		
-					"</tr>"
-				+
-					"<tr style=\"background-color: #EEE9E9; color:#000000\">"
-				+
+				;
+				
+					
+				var muda = 0;
+				
+				for(var i = 0; i < result.length; i++){
+					
+					
+					if(muda == 0){	
+						html += "<tr style=\" color:#000000 \">"
+						+
 						"<td></td>"
-				+
-						"<td>Formulário 2<br><div><a href=\"#\"> Editar</a> <a href=\"#\">Excluir</a> <a href=\"#\">Dados</a></div></td>"
-				+
-						"<td>0</td>"
-				+
+						+
+						"<td>" +result[i].nome+  "<div><a href=editarform?id="+result[i].id+">Editar</a> <a href=excluirform="+result[i].id+">Excluir</a> <a href=verform?id="+result[i].id+">Dados</a> <a href=usarform?id="+result[i].id+">Link</a></div></td>"
+						+
+						"<td>"+result[i].data_criacao+"</td>"
+						+		
+						"</tr>";
+						
+						muda = 1;
+					}else{
+						html += "<tr style=\"background-color: #EEE9E9; color:#000000\">"
+						+
 						"<td></td>"
-				+
-					"</tr>"
-				+
-				"</table>"
+						+
+						"<td>" +result[i].nome+  "<div><a href=editarform?id="+result[i].id+">Editar</a> <a href=excluirform?id="+result[i].id+">Excluir</a> <a href=verform?id="+result[i].id+">Dados</a> <a href=usarform?id="+result[i].id+">Link</a></div></td>"
+						+
+						"<td>"+result[i].data_criacao+"</td>"
+						+		
+						"</tr>";		
+					}
+				}
+				
+				
+				
+				html += "</table>"
 				+
 				"</div>" //fim do article
 				+
@@ -403,25 +418,26 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 				"</div>"
 				+
 				"</div>" //fim footer
-				
-				
-				
 				+
 				"</body>"
 				+
 				"</html>";
-				
-							
-	response.write(html);
-	response.end();
+				response.write(html);
+				response.end();
+
+	});
 
 }
 
 GerenciadorDeRequisicao.prototype.gerenciarFormulario = function(request,response){
 	this.controleDeFormulario.novoFormulario(request,response);
-	response.write("<script type='text/javascript	'>window.location.href = '/'</script>");
+	response.write("<script type='text/javascript'>window.location.href = '/'</script>");
 	response.end();
 	
+}
+
+GerenciadorDeRequisicao.prototype.usarFormulario = function(request,response){
+	this.controleDeFormulario.usarFormulario(request,response);
 }
 
 

@@ -57,6 +57,13 @@ app.get('/formularios', function(request,response){
 	GerenciadorDeRequisicao.formulario(request,response);
 });
 
+app.get('/usarform',function(request,response){
+	GerenciadorDeRequisicao.usarFormulario(request,response);
+})
+app.get('/excluirform',function(request,response){
+	//GerenciadorDeRequisicao.excluirFormulario(request,response);
+})
+
 
 //Requisições de página via POST
 
