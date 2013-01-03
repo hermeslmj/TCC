@@ -352,7 +352,8 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 						+
 						"<td>"+result[i].data_criacao+"</td>"
 						+		
-						"</tr>";		
+						"</tr>";	
+						muda = 0;	
 					}
 				}
 				

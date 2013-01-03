@@ -1,6 +1,6 @@
 var banco = require('./../../banco');
 var configuracao = require('./../../configuracao/controle/');
-
+ht = "";
 String.prototype.replaceAll = function(de, para){
     var str = this;
     var pos = str.indexOf(de);
@@ -236,11 +236,18 @@ function montarCampo(campo,response){
 			db.selectResponse(sql,response,function(result){
 				console.log('entrei');
 				response.write("<h1>teste</h1><form><label for="+campo.nome+">"+campo.nome+"</label>  </form>");
-				response.write("<h2>INSERINDO OUTRA SAIDA.</h2>")
-				response.end();
-			})
-				
 			
+								
+			});
+		break;
+		case 'lista':
+			var sql = "SELECT * FROM texto WHERE id = "+campo.id;
+			db.selectResponse(sql,response,function(result){
+				console.log('entrei');
+				response.write("<h1>teste</h1><form><label for="+campo.nome+">"+campo.nome+"</label>  </form>");
+			
+								
+			});
 		break;
 	}
 	
@@ -257,6 +264,7 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 	db.conect(c.user,c.password,c.host,c.db);
 	var sql = 'SELECT c.id,c.nome,c.tipo,c.obrigatorio FROM formulario f JOIN campo c ON c.id_formulario = f.id WHERE f.id ='+request.query.id;
 	//console.log(sql);
+	
 	db.selectResponse(sql,response,function(result){
 	
 	
@@ -268,13 +276,20 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 		
 		for(var i = 0; i < numCampos; i++){
 			//var sql = "SELECT ";
-			var campo  = campos[i];
+			campo  = campos[i];
 			montarCampo(campo,response);
+	
+			
 		}
+		
+		
 		//console.log(result);
 		
 			
 	});
+
+	
+	
 		
 }
 
