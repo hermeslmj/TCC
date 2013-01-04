@@ -441,6 +441,10 @@ GerenciadorDeRequisicao.prototype.usarFormulario = function(request,response){
 	this.controleDeFormulario.usarFormulario(request,response);
 }
 
+GerenciadorDeRequisicao.prototype.inserirDados = function(request,response){
+	console.log(request.body);
+}
+
 
 
 module.exports = GerenciadorDeRequisicao;

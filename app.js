@@ -76,6 +76,10 @@ app.post('/gerenciarformulario', function(request, response){
 	GerenciadorDeRequisicao.gerenciarFormulario(request,response);
 });
 
+app.post('/inserirDados',function(request,response){
+	GerenciadorDeRequisicao.inserirDados(request,response);
+});
+
 // Fim Routes
 
 app.listen(3000, function(){

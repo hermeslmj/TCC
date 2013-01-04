@@ -115,7 +115,7 @@ function inserirCampos(idForm,dados){
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var tamanho = ((dados[i].comprimento == "") ? "0" : dados[i].comprimento);
     				var validacao = dados[i].validacao;
-    				var html  = "<label>"+marcador+"</label><input type=text nome="+marcador+" name=campo"+h+"/>"
+    				var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"]/>"
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
     				var arg =  Array();
     				arg.push('texto');
@@ -143,7 +143,7 @@ function inserirCampos(idForm,dados){
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var largura = ((dados[i].altura == "") ? "0" : dados[i].altura ); 
     				var altura  = ((dados[i].largura == "") ? "0" : dados[i].largura );;
-    				var html = "<label>"+marcador+"</label><textarea name=campo"+h+"></textarea>";
+    				var html = "<textarea name=formulario["+marcador+"]></textarea>";
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
     				//sqlespecifico = "INSERT INTO areaTexto(id,largura,altura) VALUES(0,"+largura+","+altura+")";
     				var arg =  Array();
@@ -165,7 +165,7 @@ function inserirCampos(idForm,dados){
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var caminho = '/upload';
-    				var html = "<label>"+marcador+"</label><input type=file name=campo"+h+" />"
+    				var html = "<input type=file name=formlario["+marcador+"]/>"
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
     				//sqlespecifico = "INSERT INTO upload(id,caminho) VALUES(0,'"+caminho+"')";
     				var arg =  Array();
@@ -186,7 +186,7 @@ function inserirCampos(idForm,dados){
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var opcoes = dados[i].opcoes;
-    				var html = "<select name=campo"+h+">";
+    				var html = "<select name=formulario["+marcador+"]>";
     				var opt = opcoes.split(',');
     				console.log(opt);
     				for(var j  = 0; j < opt.length; j++){
@@ -218,11 +218,11 @@ function inserirCampos(idForm,dados){
     				console.log(opt);
     				if(multipla){
     					for(var j = 0; j < opt.length; j++){
-    						html += "<input type=checkbox name=campo"+h+"/>"+opt[j];
+    						html += "<input type=checkbox name=formulario["+marcador+"]/>"+opt[j];
     					}
     				}else{
     					for(var j = 0; j < opt.length; j++){
-    						html += "<input type=radio name=campo"+h+" />"+opt[j];
+    						html += "<input type=radio name=formulario["+marcador+"] />"+opt[j];
     					}
     				}
     				
@@ -260,7 +260,7 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 	var config = new configuracao();
 	var c = config.retornaConfiguracao();	
 	db.conect(c.user,c.password,c.host,c.db);
-	var sql = 'SELECT c.id,c.nome,c.tipo,c.obrigatorio,c.html FROM formulario f JOIN campo c ON c.id_formulario = f.id WHERE f.id ='+request.query.id;
+	var sql = 'SELECT f.id as idform,f.nome as formulario,c.id,c.nome,c.tipo,c.obrigatorio,c.html FROM formulario f JOIN campo c ON c.id_formulario = f.id WHERE f.id ='+request.query.id;
 	
 	
 	db.selectResponse(sql,response,function(result){
@@ -269,19 +269,144 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 	
 	var campos  = result;
 	var numCampos = result.length;
-	response.write("<html><head></head><body><form>");
+	
+	var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
+				+
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
+				+
+				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
+				+
+				"<title>Formulários</title>"
+				+
+				"<meta name=\"author\" content=\"Hermes\" />"
+				+
+				"<link rel=\"stylesheet\" href=\"/stylesheets/style.css\">"
+				+
+				"<script src='/javascripts/jquery.js' type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/principal.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/cufon-yui.js\"></script>"
+				+
+				"<script src=\"/javascripts/arial.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/cuf_run.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/radius.js\" type=\"text/javascript\"></script>"
+ 				+
+				"</head>"
+				+
+				"<body>"
+				+
+				"<div class=main>"
+				+
+				"<div class=header>"
+				+
+				"<div class=header_resize>"
+				+
+				"<div class=menu_nav></div>"
+				+
+				"<div class=logo><h1><a href='#'>Gerenciador de formulários</a><small>Mais simples impossível</small></h1></div>"
+				+
+				"<div class=clr>"				
+				+
+				"</div>" //fim do div header_resize
+				+
+				"</div>"
+				+
+				"</div>" //fim do div header
+				+
+				"<div class=content>"
+				+
+				"<div class=content_resize>"
+				+
+				"<div class=mainbar>"
+				+
+				"<div class=article id=principal>"
+			
+				+
+				"<h2 class=\"star\"><span>"+campos[0].formulario+"</span> </h2>"
+				+
+				"<form id=frm"+campos[0].idform+" action=\"/inserirDados\" method=\"post\" > <table> <input type=hidden value="+campos[0].idform+" name=formulario[id]>"
+				;
+	
+	
+				
+	
+	
 	
 		
 		for(var i = 0; i < numCampos; i++){
-			console.log(campos[i]);
-			response.write(campos[i].html);
+			html += "<tr><td>"+campos[i].nome+"</td><td>"+campos[i].html+"</td></tr>";
+			
 	
 			
 		}
 		
-		
+		html += "<tr><td><input type=submit><input type=reset></td><td></td></tr></table></div>" //fim do article
+				+
+				"</div>" //fim do mainbar
+				+
+				"<div class=sidebar>"
+				+
+				"<div class=gadget>"
+				+
+				"<h2><span>Menu Lateral</span></h2>"
+				+
+				"<div class=clr></div>"
+				+
+				"<ul class=sb_menu>"
+				+
+				"<li><a href='formularios'>Formulários</a></li>"
+				+
+				"<li><a href='configuracao'>Configuração</a></li>"
+				+
+				"<li><a href='documentacao'>Documentação</a></li>"
+				+
+				"</ul>"
+				+
+				"</div>" // fim do gadget
+				+
+				"</div>" // fim do sidebar
+				
+				+
+				"</div>" //fim do content_resize
+				+
+				"</div>" //fim do div content
+				+
+				"<div class=clr></div>"
+				+
+				"<div class=fbg>"
+				+
+				"<div class=fbg_resize>"
+				+
+				"<div class='col c1'></div>"
+				+
+				"<div class='col c2'></div>"
+				+
+				"<div class='col c3'></div>"
+				+
+				"<div class=clr></div>"
+				+
+				"</div>" //fim do fbg_resize
+				+
+				"</div>" // fim do fbg
+				+
+				"<div class=footer>"
+				+
+				"<div class=footer_resive>"
+				+
+				"<div class=clr></div>"
+				+
+				"</div>"
+				+
+				"</div>" //fim footer
+				+
+				"</body>"
+				+
+				"</html>";
 		//console.log(result);
-	response.write("</form></body>");	
+	response.write(html);	
 	response.end();		
 	});
 
