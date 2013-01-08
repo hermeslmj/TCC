@@ -115,7 +115,23 @@ function inserirCampos(idForm,dados){
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var tamanho = ((dados[i].comprimento == "") ? "0" : dados[i].comprimento);
     				var validacao = dados[i].validacao;
-    				var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"]/>"
+    				
+    				if(tamanho > 0 ){
+    					if(obrigatorio){
+    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+" class='required' />"
+    					}else{
+    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+"/>"
+    					}
+    				}else{
+    					if(obrigatorio){
+    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='required' />"
+    					}else{
+    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] />"
+    					}	
+    				}
+    				
+    				
+    				
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
     				var arg =  Array();
     				arg.push('texto');
@@ -142,8 +158,14 @@ function inserirCampos(idForm,dados){
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var largura = ((dados[i].altura == "") ? "0" : dados[i].altura ); 
-    				var altura  = ((dados[i].largura == "") ? "0" : dados[i].largura );;
-    				var html = "<textarea name=formulario["+marcador+"]></textarea>";
+    				var altura  = ((dados[i].largura == "") ? "0" : dados[i].largura );
+    			
+    				if(obrigatorio){
+    					var html = "<textarea name=formulario["+marcador+"] class='required' cols='300' rows='300' ></textarea>";	
+    				}else{
+    					var html = "<textarea name=formulario["+marcador+"] cols='300' rows='300'></textarea>";
+    				}
+    				
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
     				//sqlespecifico = "INSERT INTO areaTexto(id,largura,altura) VALUES(0,"+largura+","+altura+")";
     				var arg =  Array();
@@ -165,7 +187,13 @@ function inserirCampos(idForm,dados){
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var caminho = '/upload';
-    				var html = "<input type=file name=formlario["+marcador+"]/>"
+    				if(obrigatorio){
+    					var html = "<input type=file name=formlario["+marcador+"] class='required' />"	
+    				}else{
+    					var html = "<input type=file name=formlario["+marcador+"] />"
+    				}
+    				
+    				
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
     				//sqlespecifico = "INSERT INTO upload(id,caminho) VALUES(0,'"+caminho+"')";
     				var arg =  Array();
@@ -186,7 +214,12 @@ function inserirCampos(idForm,dados){
     				tipo  = dados[i].tipo;
     				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
     				var opcoes = dados[i].opcoes;
-    				var html = "<select name=formulario["+marcador+"]>";
+    				
+    				if(obrigatorio)
+    					var html = "<select name=formulario["+marcador+"] class='required'>";
+    				else
+    					var html = "<select name=formulario["+marcador+"]>";
+    					
     				var opt = opcoes.split(',');
     				console.log(opt);
     				for(var j  = 0; j < opt.length; j++){
@@ -217,13 +250,28 @@ function inserirCampos(idForm,dados){
     				var html = "";
     				console.log(opt);
     				if(multipla){
-    					for(var j = 0; j < opt.length; j++){
-    						html += "<input type=checkbox name=formulario["+marcador+"]/>"+opt[j];
+    					if(obrigatorio){
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=checkbox name=formulario["+marcador+"] class='required' />"+opt[j];
+    						}	
+    					}else{
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=checkbox name=formulario["+marcador+"]/>"+opt[j];
+    						}
     					}
+    					
     				}else{
-    					for(var j = 0; j < opt.length; j++){
-    						html += "<input type=radio name=formulario["+marcador+"] />"+opt[j];
+    					if(obrigatorio){
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=radio name=formulario["+marcador+"] class='required' />"+opt[j];
+    						}	
+    					}else{
+    						for(var j = 0; j < opt.length; j++){
+	    						html += "<input type=radio name=formulario["+marcador+"] />"+opt[j];
+    						}
     					}
+    					
+    					
     				}
     				
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
