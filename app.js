@@ -64,6 +64,14 @@ app.get('/excluirform',function(request,response){
 	//GerenciadorDeRequisicao.excluirFormulario(request,response);
 })
 
+app.get('/verform',function(request,response){
+	GerenciadorDeRequisicao.verDados(request,response);
+})
+
+app.get('/excluirform',function(request,response){
+	GerenciadorDeRequisicao.excluirForm(request,response);
+})
+
 
 //Requisições de página via POST
 

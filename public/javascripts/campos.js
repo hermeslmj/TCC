@@ -15,18 +15,18 @@ function campoTexto(pai){
 					+
 				"<tr><td>Validação:</td><td><select name= form[campo"+num_campos+"][validacao]>"
 					+
-				"<option>...</option>"
+				"<option value='0' >...</option>"
 					+
-				"<option>Somente Números</option>"
+				"<option value='1' >Números</option>"
 					+
-				"<option>Número de telefone/celular</option>"
+				"<option value='2' >Telefone/celular</option>"
 					+
-				"<option>Email</option>"
+				"<option value='3' >Email</option>"
 					+
-				"<option>CPF</option>"
+				"<option value='4'>CPF</option>"
 					+
-				"<option>Data</option>"	
-					+				
+				"<option value='5'>Data</option>"
+					+
 				"</select></td></tr>"	
 					+
 				"<tr><td><input type = hidden name = form[campo"+num_campos+"][tipo] value='texto'></td></tr>"
@@ -48,10 +48,10 @@ function campoAreaTexto(pai){
 				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+num_campos+"][marcador] /></td></tr>"	
 				
 					+
-				"<tr><td>Largura</td><td><input type=text name = form[campo"+num_campos+"][largura] /></td></tr>"	
+				/*"<tr><td>Largura</td><td><input type=text name = form[campo"+num_campos+"][largura] /></td></tr>"	
 					+
 				"<tr><td>Altura</td><td><input type=text name = form[campo"+num_campos+"][altura] /></td></tr>"
-					+
+					+*/
 				
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio] /></td></tr>"
 
@@ -112,7 +112,7 @@ function campoCaixaDeMarcacao(pai){
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+num_campos+"][obrigatorio] /></td></tr>"
 					+
-				"<td>Opção única:</td><td><input type=radio value = unica name= form[campo"+num_campos+"][multipla] /></td><td>Opções multiplas</td><td><input type=radio value = multi name=caixa_tipo_" + num_campos + " /></td>"
+				"<td>Opção única:</td><td><input type=radio value = unica name= form[campo"+num_campos+"][multipla] /></td><td>Opções multiplas</td><td><input type=radio value = multi name=form[campo"+num_campos+"][multipla] /></td>"
 					+
 				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = form[campo"+num_campos+"][opcoes] /></td></tr>"
 					+	

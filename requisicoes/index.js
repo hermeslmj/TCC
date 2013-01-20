@@ -258,7 +258,7 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 				+
 				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
 				+
-				"<title>Configuração</title>"
+				"<title>Formulários cadastrados</title>"
 				+
 				"<meta name=\"author\" content=\"Hermes\" />"
 				+
@@ -442,9 +442,15 @@ GerenciadorDeRequisicao.prototype.usarFormulario = function(request,response){
 }
 
 GerenciadorDeRequisicao.prototype.inserirDados = function(request,response){
-	console.log(request.body);
+	this.controleDeFormulario.inserirDados(request,response);
 }
 
+GerenciadorDeRequisicao.prototype.verDados = function(request,response){
+	this.controleDeFormulario.verDados(request,response);
+}
+GerenciadorDeRequisicao.prototype.excluirForm =  function(request,response){
+	this.controleDeFormulario.excluirform(request,response);
+}
 
 
 module.exports = GerenciadorDeRequisicao;

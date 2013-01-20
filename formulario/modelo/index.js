@@ -23,7 +23,7 @@ ModeloFormulario.prototype.inserir = function(dados){
 	this.db.conect(c.user,c.password,c.host,c.db);  
 	//db.conect('root','root','localhost','tcc');
 	data_atual = new Date();
-	data_atual = data_atual.getDay()+'-'+data_atual.getMonth()+'-'+data_atual.getFullYear();
+	data_atual = data_atual.getDay()+'-'+data_atual.getMonth()+1+'-'+data_atual.getFullYear();
 	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ dados['name'] +'","'+ data_atual +'")';
 	
 	this.db.insert(sql,inserirCampos,dados);
@@ -69,7 +69,7 @@ function inserirCampoEspecifico(idCampo,dados){
 			var sqlespecifico = "INSERT INTO upload(id,caminho) VALUES("+idCampo+",'"+dados[1]+"')";
 			db.insert(sqlespecifico,function(id,dados){
 				//console.log(id);
-			},null);	
+				},null);	
 		break;
 		case 'lista':
 			var sqlespecifico = "INSERT INTO lista(id,opcoes) VALUES("+idCampo+",'"+dados[1]+"')";
@@ -110,26 +110,47 @@ function inserirCampos(idForm,dados){
     	}else{
     		switch(dados[i].tipo){
     			case 'texto':
+    				 html = "";
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
-    				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
-    				var tamanho = ((dados[i].comprimento == "") ? "0" : dados[i].comprimento);
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				var tamanho = ((dados[i].comprimento == "") ? 0 : dados[i].comprimento);
     				var validacao = dados[i].validacao;
     				
     				if(tamanho > 0 ){
     					if(obrigatorio){
-    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+" class='required' />"
+    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+" class=required ";
     					}else{
-    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+"/>"
+    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+"' ";
     					}
     				}else{
     					if(obrigatorio){
-    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='required' />"
+    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='required ";
     					}else{
-    						var html  = "<input type=text nome="+marcador+" name=formulario["+marcador+"] />"
+    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] '";
     					}	
+    					
     				}
-    				
+    				switch(validacao){
+    					case '0':
+    						html+="' \>";
+    					break;
+    					case '1':
+    						html+="number' \>";
+    					break;
+    					case '2':
+    						html+="number' maxlength=13  \>";
+    					break;
+    					case '3':
+    						html+="email'  \>";
+    					break;
+    					case '4':
+    						html+="cpf' \>";
+    					break;
+    					case '5':
+    						html+="date' \>";
+    					break;
+    				}
     				
     				
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
@@ -141,7 +162,7 @@ function inserirCampos(idForm,dados){
     				if(tamanho == 0){
     					marcador = marcador.replaceAll(' ','_');
     					marcador = marcador.replaceAll('/','_');
-    					table += ", "+marcador+" BLOB "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    					table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
     				} else{
     					table += ","+marcador+" VARCHAR("+ tamanho +") "+((obrigatorio == 1) ? "NOT NULL" : "");
     				}
@@ -156,14 +177,16 @@ function inserirCampos(idForm,dados){
      				
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
-    				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
-    				var largura = ((dados[i].altura == "") ? "0" : dados[i].altura ); 
-    				var altura  = ((dados[i].largura == "") ? "0" : dados[i].largura );
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				//var largura = ((dados[i].altura == "") ? "0" : dados[i].altura ); 
+    				//var altura  = ((dados[i].largura == "") ? "0" : dados[i].largura );
+    				var largura = 300;
+    				var altura = 300;
     			
     				if(obrigatorio){
-    					var html = "<textarea name=formulario["+marcador+"] class='required' cols='300' rows='300' ></textarea>";	
+    					var html = "<textarea name=formulario["+marcador+"] class='required'></textarea>";	
     				}else{
-    					var html = "<textarea name=formulario["+marcador+"] cols='300' rows='300'></textarea>";
+    					var html = "<textarea name=formulario["+marcador+"] ></textarea>";
     				}
     				
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
@@ -185,7 +208,7 @@ function inserirCampos(idForm,dados){
     			
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
-    				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
     				var caminho = '/upload';
     				if(obrigatorio){
     					var html = "<input type=file name=formlario["+marcador+"] class='required' />"	
@@ -212,7 +235,7 @@ function inserirCampos(idForm,dados){
     			
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
-    				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
     				var opcoes = dados[i].opcoes;
     				
     				if(obrigatorio)
@@ -243,31 +266,32 @@ function inserirCampos(idForm,dados){
     			
     				marcador = dados[i].marcador;
     				tipo  = dados[i].tipo;
-    				obrigatorio = ((dados[i].obrigatorio == "on") ? "1" : "0") ;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
     				var opcoes = dados[i].opcoes;
     				var opt = opcoes.split(',');
-    				var multipla = ((dados[i].multipla == "on") ? "1" : "0");
+    				
+    				var multipla = ((dados[i].multipla == "unica") ? 0 : 1);
     				var html = "";
-    				console.log(opt);
-    				if(multipla){
+					console.log(multipla);    				
+    				if(multipla == 1){
     					if(obrigatorio){
     						for(var j = 0; j < opt.length; j++){
-    							html += "<input type=checkbox name=formulario["+marcador+"] class='required' />"+opt[j];
+    							html += "<input type=checkbox name=formulario["+marcador+"] class='required' value="+opt[j]+" />"+opt[j];
     						}	
     					}else{
     						for(var j = 0; j < opt.length; j++){
-    							html += "<input type=checkbox name=formulario["+marcador+"]/>"+opt[j];
+    							html += "<input type=checkbox name=formulario["+marcador+"] value="+opt[j]+" />"+opt[j];
     						}
     					}
     					
     				}else{
     					if(obrigatorio){
     						for(var j = 0; j < opt.length; j++){
-    							html += "<input type=radio name=formulario["+marcador+"] class='required' />"+opt[j];
+    							html += "<input type=radio name=formulario["+marcador+"] class='required'value="+opt[j]+"  />"+opt[j];
     						}	
     					}else{
     						for(var j = 0; j < opt.length; j++){
-	    						html += "<input type=radio name=formulario["+marcador+"] />"+opt[j];
+	    						html += "<input type=radio name=formulario["+marcador+"] value="+opt[j]+" />"+opt[j];
     						}
     					}
     					
@@ -341,6 +365,10 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 				"<script src=\"/javascripts/cuf_run.js\" type=\"text/javascript\"></script>"
 				+
 				"<script src=\"/javascripts/radius.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/jquery.validate.js\" type=\"text/javascript\"></script>"
+ 				+
+ 				"<script src=\"/javascripts/funcoes.js\" type=\"text/javascript\"></script>"
  				+
 				"</head>"
 				+
@@ -375,7 +403,7 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 				+
 				"<h2 class=\"star\"><span>"+campos[0].formulario+"</span> </h2>"
 				+
-				"<form id=frm"+campos[0].idform+" action=\"/inserirDados\" method=\"post\" > <table> <input type=hidden value="+campos[0].idform+" name=formulario[id]>"
+				"<form id=formulario  name=frm"+campos[0].idform+" action=\"/inserirDados\" method=\"post\" > <table> <input type=hidden value="+campos[0].idform+" name=formulario[id]>"
 				;
 	
 	
@@ -444,7 +472,7 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 				+
 				"<div class=footer_resive>"
 				+
-				"<div class=clr></div>"
+				"<div class=clr></div>"	
 				+
 				"</div>"
 				+
@@ -463,5 +491,238 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 		
 }
 
+ModeloFormulario.prototype.inserirDados = function(dados,response){
+	
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	
+	var sql;
+	
+	
+	for(var i in dados.formulario){
+		if(i == 'id'){
+			sql = "INSERT INTO frm"+dados.formulario[i]+"(";
+		}else{
+			sql += "`"+i+"`,";
+		}
+	}
+		
+	sql = sql.substr(0,sql.length-1);
+	sql += ") VALUES(";
+	
+	for(var i in dados.formulario){
+		if(i == 'id'){
+			
+		}else{
+			sql += "'"+dados.formulario[i]+"',";
+		}
+	}
+	sql = sql.substr(0,sql.length-1);
+	sql += ")";
+	console.log(sql);
+	db.executar(sql);
+	response.write("<script type=text/javascript>window.location.href='/'</script>");
+	response.end();
+}
+
+ModeloFormulario.prototype.verDados =  function(request,response){
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	var sql = 'SELECT * FROM frm'+request.query.id;
+	
+	
+	db.selectResponse(sql,response,function(result,field){
+	
+	
+	
+	var campos  = result;
+	var numCampos = result.length;
+	
+	var c = 0;
+	
+	
+	//console.log(campos);	
+		var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
+				+
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
+				+
+				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
+				+
+				"<title>Dados do formulário</title>"
+				+
+				"<meta name=\"author\" content=\"Hermes\" />"
+				+
+				"<link rel=\"stylesheet\" href=\"/stylesheets/style.css\">"
+				+
+				"<script src='/javascripts/jquery.js' type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/principal.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/cufon-yui.js\"></script>"
+				+
+				"<script src=\"/javascripts/arial.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/cuf_run.js\" type=\"text/javascript\"></script>"
+				+
+				"<script src=\"/javascripts/radius.js\" type=\"text/javascript\"></script>"
+ 				+
+				"</head>"
+				+
+				"<body>"
+				+
+				"<div class=main>"
+				+
+				"<div class=header>"
+				+
+				"<div class=header_resize>"
+				+
+				"<div class=menu_nav></div>"
+				+
+				"<div class=logo><h1><a href='#'>Gerenciador de formulários</a><small>Mais simples impossível</small></h1></div>"
+				+
+				"<div class=clr>"				
+				+
+				"</div>" //fim do div header_resize
+				+
+				"</div>"
+				+
+				"</div>" //fim do div header
+				+
+				"<div class=content>"
+				+
+				"<div class=content_resize>"
+				+
+				"<div class=mainbar>"
+				+
+				"<div class=article id=principal>"
+			
+				+
+				"<h2 class=\"star\"><span>Formulários</span> </h2>"
+				
+				
+				+
+				"<table class='tabela'><tr style=\"background-color: #EEE9E9; color:#000000\" >";
+				for(var h in field){
+					c++;
+					html += "<td>"+field[h].name+"</td>"
+				}
+				html += "<td></td></tr>"
+					
+				var muda = 0;
+				
+				for(var i = 0; i < numCampos; i++){
+					
+					if(muda == 0){	
+						html += "<tr style=\" color:#000000 \">";
+						
+						
+						muda = 1;
+					}else{
+						html += "<tr style=\"background-color: #EEE9E9; color:#000000\">";
+						muda = 0;	
+					}
+					//console.log(campos[i]);
+					campo = campos[i];
+					teste = c;
+					for(var j in campos[i]){
+						console.log(j);
+						html += "<td>"+campo[j]+"</td>";
+						teste--;
+						if(teste == 0)break;
+						
+					}
+					html += "<td><a href=excluirdado?id="+campo.id+"&idform="+request.query.id+">Excluir</a></td></tr>";
+					
+					
+				}
+				
+				
+				
+				html += "</table>"
+				+
+				"</div>" //fim do article
+				+
+				"</div>" //fim do mainbar
+				+
+				"<div class=sidebar>"
+				+
+				"<div class=gadget>"
+				+
+				"<h2><span>Menu Lateral</span></h2>"
+				+
+				"<div class=clr></div>"
+				+
+				"<ul class=sb_menu>"
+				+
+				"<li><a href='formularios'>Formulários</a></li>"
+				+
+				"<li><a href='configuracao'>Configuração</a></li>"
+				+
+				"<li><a href='documentacao'>Documentação</a></li>"
+				+
+				"</ul>"
+				+
+				"</div>" // fim do gadget
+				+
+				"</div>" // fim do sidebar
+				
+				+
+				"</div>" //fim do content_resize
+				+
+				"</div>" //fim do div content
+				+
+				"<div class=clr></div>"
+				+
+				"<div class=fbg>"
+				+
+				"<div class=fbg_resize>"
+				+
+				"<div class='col c1'></div>"
+				+
+				"<div class='col c2'></div>"
+				+
+				"<div class='col c3'></div>"
+				+
+				"<div class=clr></div>"
+				+
+				"</div>" //fim do fbg_resize
+				+
+				"</div>" // fim do fbg
+				+
+				"<div class=footer>"
+				+
+				"<div class=footer_resive>"
+				+
+				"<div class=clr></div>"
+				+
+				"</div>"
+				+
+				"</div>" //fim footer
+				+
+				"</body>"
+				+
+				"</html>";
+
+	
+	
+	
+	response.write(html);	
+	response.end();		
+	});
+	
+}
+
+ModeloFormulario.prototype.excluirform =  function(request,response){
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	var sql = 'DELETE FROM formulario WHERE id='+request.query.id;
+	
+}
 
 module.exports = ModeloFormulario;

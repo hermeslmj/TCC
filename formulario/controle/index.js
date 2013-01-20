@@ -16,5 +16,19 @@ ControleFormulario.prototype.usarFormulario = function(request,response){
 	this.modeloFormulario.montarFormulario(request,response);	
 }
 
+ControleFormulario.prototype.inserirDados = function(request,response){
+	var dados  = request.body;
+	this.modeloFormulario.inserirDados(dados,response);
+		
+	
+}
+ControleFormulario.prototype.verDados = function(request,response){
+	this.modeloFormulario.verDados(request,response);
+}
+ControleFormulario.prototype.excluirform = function(request,response){
+	this.modeloFormulario.excluirform(request,response);
+}
+
+
 module.exports = ControleFormulario;
 

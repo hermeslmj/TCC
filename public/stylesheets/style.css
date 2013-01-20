@@ -368,3 +368,14 @@ ol li .send {
 	padding: 5px 5px 5px 5px;
 	
 }
+textarea{
+	width: 300px;
+	height: 250px;
+}
+.error{
+	border-color: red;	
+	background-color: #FFFFD5;
+	color: red;
+
+	
+}
