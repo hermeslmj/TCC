@@ -336,7 +336,7 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 						+
 						"<td></td>"
 						+
-						"<td>" +result[i].nome+  "<div><a href=editarform?id="+result[i].id+">Editar</a> <a href=excluirform="+result[i].id+">Excluir</a> <a href=verform?id="+result[i].id+">Dados</a> <a href=usarform?id="+result[i].id+">Link</a></div></td>"
+						"<td>" +result[i].nome+  "<div><a href=editarform?id="+result[i].id+">Editar</a> <a href=/excluir?id="+result[i].id+">Excluir</a> <a href=verform?id="+result[i].id+">Dados</a> <a href=usarform?id="+result[i].id+">Link</a></div></td>"
 						+
 						"<td>"+result[i].data_criacao+"</td>"
 						+		
@@ -348,7 +348,7 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 						+
 						"<td></td>"
 						+
-						"<td>" +result[i].nome+  "<div><a href=editarform?id="+result[i].id+">Editar</a> <a href=excluirform?id="+result[i].id+">Excluir</a> <a href=verform?id="+result[i].id+">Dados</a> <a href=usarform?id="+result[i].id+">Link</a></div></td>"
+						"<td>" +result[i].nome+  "<div><a href=/editarform?id="+result[i].id+">Editar</a> <a href=/excluir?id="+result[i].id+">Excluir</a> <a href=verform?id="+result[i].id+">Dados</a> <a href=usarform?id="+result[i].id+">Link</a></div></td>"
 						+
 						"<td>"+result[i].data_criacao+"</td>"
 						+		
@@ -449,7 +449,9 @@ GerenciadorDeRequisicao.prototype.verDados = function(request,response){
 	this.controleDeFormulario.verDados(request,response);
 }
 GerenciadorDeRequisicao.prototype.excluirForm =  function(request,response){
+	console.log(request);
 	this.controleDeFormulario.excluirform(request,response);
+
 }
 
 

@@ -59,18 +59,20 @@ app.get('/formularios', function(request,response){
 
 app.get('/usarform',function(request,response){
 	GerenciadorDeRequisicao.usarFormulario(request,response);
-})
+});
 app.get('/excluirform',function(request,response){
 	//GerenciadorDeRequisicao.excluirFormulario(request,response);
-})
+});
 
 app.get('/verform',function(request,response){
 	GerenciadorDeRequisicao.verDados(request,response);
-})
+});
 
-app.get('/excluirform',function(request,response){
+
+app.get('/excluir',function(request,response){
 	GerenciadorDeRequisicao.excluirForm(request,response);
-})
+});
+
 
 
 //Requisições de página via POST
@@ -78,7 +80,7 @@ app.get('/excluirform',function(request,response){
 app.post('/gerenciarconfiguracao', function(request,response){
 	GerenciadorDeRequisicao.gerenciarConfiguracao(request,response);
 	response.end();
-})
+});
 
 app.post('/gerenciarformulario', function(request, response){
 	GerenciadorDeRequisicao.gerenciarFormulario(request,response);

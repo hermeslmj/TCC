@@ -532,7 +532,15 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 	var config = new configuracao();
 	var c = config.retornaConfiguracao();	
 	db.conect(c.user,c.password,c.host,c.db);
-	var sql = 'SELECT * FROM frm'+request.query.id;
+	
+	if(request.query.id == undefined){
+		var sql = 'SELECT * FROM frm'+request.query.pesquisar['id']+" WHERE `"+request.query.pesquisar['campo']+"`LIKE '%"+request.query.pesquisar['filtro']+"%'";
+		console.log(sql);
+	}else{
+		var sql = 'SELECT * FROM frm'+request.query.id;	
+	}
+	
+	
 	
 	
 	db.selectResponse(sql,response,function(result,field){
@@ -601,11 +609,18 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 				"<div class=article id=principal>"
 			
 				+
-				"<h2 class=\"star\"><span>Formulários</span> </h2>"
+				"<h2 class=\"star\"><span>Formulários</span> </h2>";
 				
 				
-				+
-				"<table class='tabela'><tr style=\"background-color: #EEE9E9; color:#000000\" >";
+				html += "<form name=pesquisa action=/verform method=get><table><tr><td>Filtrar</td><td><input type=hidden name=pesquisar[id] value="+request.query.id+"></td><td><select id=campo name=pesquisar[campo]>"; 
+				
+				for(var h in field){
+					
+					html += "<option value="+field[h].name+">"+field[h].name+"</option>"
+				}
+				html +="</select></td><td><input type=text name=pesquisar[filtro] /></td><td><input type=submit value=Pesquisar></td></tr></table></form>"
+				
+				html +=	"<table class='tabela'><tr style=\"background-color: #EEE9E9; color:#000000\" >";
 				for(var h in field){
 					c++;
 					html += "<td>"+field[h].name+"</td>"
@@ -722,6 +737,13 @@ ModeloFormulario.prototype.excluirform =  function(request,response){
 	var c = config.retornaConfiguracao();	
 	db.conect(c.user,c.password,c.host,c.db);
 	var sql = 'DELETE FROM formulario WHERE id='+request.query.id;
+	console.log(sql);
+	db.executar(sql);
+	sql = 'DROP TABLE frm'+request.query.id;
+	console.log(sql);
+	db.executar(sql);
+		response.write("<script type='text/javascript'>window.location.href = '/'</script>");
+	response.end();
 	
 }
 
