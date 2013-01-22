@@ -29,6 +29,9 @@ ControleFormulario.prototype.excluirform = function(request,response){
 ControleFormulario.prototype.excluirdado = function(request,response){
 	this.modeloFormulario.excluirdado(request,response);
 }
+ControleFormulario.prototype.editarform = function(request,response){
+	this.modeloFormulario.editarform(request,response);
+}
 
 module.exports = ControleFormulario;
 

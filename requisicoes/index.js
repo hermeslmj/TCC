@@ -456,6 +456,9 @@ GerenciadorDeRequisicao.prototype.excluirForm =  function(request,response){
 GerenciadorDeRequisicao.prototype.excluirdado = function(request,response){
 	this.controleDeFormulario.excluirdado(request,response);
 }
+GerenciadorDeRequisicao.prototype.editarform = function (request,response){
+	this.controleDeFormulario.editarform(request,response);
+}
 
 
 module.exports = GerenciadorDeRequisicao;

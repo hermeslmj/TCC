@@ -38,12 +38,7 @@ ModeloFormulario.prototype.inserir = function(dados){
 
 	
 }
-ModeloFormulario.prototype.editar = function(nome,campos){
-	
-}
-ModeloFormulario.prototype.apagar = function(nome,campos){
-	
-}
+
 
 function inserirCampoEspecifico(idCampo,dados){
 	
@@ -761,6 +756,18 @@ ModeloFormulario.prototype.excluirdado = function(request,response){
 	
 	
 	
+	
+}
+
+ModeloFormulario.prototype.editarform = function(request,response){
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	var sql = "SELECT * FROM campo WHERE id_formulario="+request.query.id;
+	db.select(sql,function(result){
+		console.log(result);
+	})
 	
 }
 

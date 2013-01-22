@@ -76,6 +76,9 @@ app.get('/excluir',function(request,response){
 app.get('/excluirdado',function(request,response){
 	GerenciadorDeRequisicao.excluirdado(request,response);
 });
+app.get('/editarform',function(request,response){
+	GerenciadorDeRequisicao.editarform(request,response);
+});
 	
 
 
