@@ -22,8 +22,10 @@ ModeloFormulario.prototype.inserir = function(dados){
 	var c = this.config.retornaConfiguracao();	
 	this.db.conect(c.user,c.password,c.host,c.db);  
 	//db.conect('root','root','localhost','tcc');
-	data_atual = new Date();
-	data_atual = data_atual.getDay()+'-'+data_atual.getMonth()+1+'-'+data_atual.getFullYear();
+	data_atual = new Date(); 
+	mes = data_atual.getMonth();
+	mes += 1;
+	data_atual = data_atual.getDate()+'-'+mes+'-'+data_atual.getFullYear();
 	sql = 'INSERT INTO formulario(nome,data_criacao) VALUES("'+ dados['name'] +'","'+ data_atual +'")';
 	
 	this.db.insert(sql,inserirCampos,dados);
@@ -744,6 +746,21 @@ ModeloFormulario.prototype.excluirform =  function(request,response){
 	db.executar(sql);
 		response.write("<script type='text/javascript'>window.location.href = '/'</script>");
 	response.end();
+	
+}
+
+ModeloFormulario.prototype.excluirdado = function(request,response){
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	var sql = "DELETE  FROM frm"+request.query.idform+" WHERE id="+request.query.id;
+	db.executar(sql);
+	response.write("<script type='text/javascript'>window.location.href = '/'</script>");
+	response.end();
+	
+	
+	
 	
 }
 

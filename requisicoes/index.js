@@ -449,9 +449,12 @@ GerenciadorDeRequisicao.prototype.verDados = function(request,response){
 	this.controleDeFormulario.verDados(request,response);
 }
 GerenciadorDeRequisicao.prototype.excluirForm =  function(request,response){
-	console.log(request);
+	
 	this.controleDeFormulario.excluirform(request,response);
 
+}
+GerenciadorDeRequisicao.prototype.excluirdado = function(request,response){
+	this.controleDeFormulario.excluirdado(request,response);
 }
 
 

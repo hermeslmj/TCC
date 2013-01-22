@@ -73,6 +73,12 @@ app.get('/excluir',function(request,response){
 	GerenciadorDeRequisicao.excluirForm(request,response);
 });
 
+app.get('/excluirdado',function(request,response){
+	GerenciadorDeRequisicao.excluirdado(request,response);
+});
+	
+
+
 
 
 //Requisições de página via POST
