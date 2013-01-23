@@ -250,7 +250,7 @@ GerenciadorDeRequisicao.prototype.formulario = function(request,response){
 	var config =  this.controleDeConfiguracao.retornaConfiguracao();
 	bd.conect(config.user,config.password,config.host,config.db);
 	var sql = "SELECT * FROM formulario";
-	bd.selectResponse(sql,response,function(result){
+	bd.selectResponse(sql,response,function(response,result){
 		
 		var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
 				+
