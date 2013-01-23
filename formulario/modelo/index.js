@@ -781,16 +781,45 @@ function montarFormularioEdicao(response,result){
 					
 				break;
 				case 'area':
-					console.log('area');
+					sql = "SELECT tamanho,validacao FROM areaTexto WHERE id="+campos[i].id;
+					console.log(sql);
+					db.selectResponse(sql,response,function(response,result){
+						
+								console.log(result);
+							
+						
+					});
+					
 				break;
 				case 'lista':
-					console.log('lista');
+					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					console.log(sql);
+					db.selectResponse(sql,response,function(response,result){
+						
+								console.log(result);
+							
+						
+					});
 				break;
 				case 'marcacao':
-					console.log('marcacao');
+					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					console.log(sql);
+					db.selectResponse(sql,response,function(response,result){
+						
+								console.log(result);
+							
+						
+					});
 				break;
 				case 'upload':
-					console.log('upload');
+					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					console.log(sql);
+					db.selectResponse(sql,response,function(response,result){
+						
+								console.log(result);
+							
+						
+					});
 				break;
 				
 			}
