@@ -57,7 +57,7 @@ Banco.prototype.select = function(sql,funcao){
 }
 
 Banco.prototype.selectResponse = function(sql,response,funcao){
-	this.conexao.query(sql,function(err,response,result){
+	this.conexao.query(sql,function(response,result){
 			funcao(response,result);
 	});
 }

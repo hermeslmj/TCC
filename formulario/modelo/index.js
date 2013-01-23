@@ -549,6 +549,7 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 	
 	var c = 0;
 	
+	console.log(result);
 	
 	//console.log(campos);	
 		var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
@@ -758,6 +759,45 @@ ModeloFormulario.prototype.excluirdado = function(request,response){
 	
 	
 }
+function montarFormularioEdicao(response,result){
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	console.log(result);
+	var campos  = result;
+	for(var i = 0; i <  campos.length; i++){
+			switch(campos[i].tipo){
+				case 'texto':
+					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					console.log(sql);
+					db.selectResponse(sql,response,function(response,result){
+						
+								console.log(result);
+							
+						
+					});
+						
+					
+				break;
+				case 'area':
+					console.log('area');
+				break;
+				case 'lista':
+					console.log('lista');
+				break;
+				case 'marcacao':
+					console.log('marcacao');
+				break;
+				case 'upload':
+					console.log('upload');
+				break;
+				
+			}
+		}
+		
+
+}
 
 ModeloFormulario.prototype.editarform = function(request,response){
 	var db = new banco();
@@ -765,9 +805,11 @@ ModeloFormulario.prototype.editarform = function(request,response){
 	var c = config.retornaConfiguracao();	
 	db.conect(c.user,c.password,c.host,c.db);
 	var sql = "SELECT * FROM campo WHERE id_formulario="+request.query.id;
-	db.select(sql,function(result){
-		console.log(result);
-	})
+	
+	db.selectResponse(sql,response,montarFormularioEdicao);		
+
+
+	
 	
 }
 
