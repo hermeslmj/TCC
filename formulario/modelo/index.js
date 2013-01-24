@@ -766,64 +766,78 @@ function montarFormularioEdicao(response,result){
 	db.conect(c.user,c.password,c.host,c.db);
 	console.log(result);
 	var campos  = result;
+	campos.push(JSON.parse("{\"tipo\": \"ultimo\"}"));
+	console.log(campos);
+	response.write('<html><head></head><body>');
 	for(var i = 0; i <  campos.length; i++){
 			switch(campos[i].tipo){
 				case 'texto':
-					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					sql = "SELECT c.*,t.tamanho,t.validacao FROM texto t JOIN campo c ON c.id = t.id WHERE t.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						
-								console.log(result);
-							
+						console.log('texto');
+						console.log(response);
+								response.write(result[0].html);
+								//console.log(response);
 						
 					});
 						
 					
 				break;
 				case 'area':
-					sql = "SELECT tamanho,validacao FROM areaTexto WHERE id="+campos[i].id;
+					sql = "SELECT c.*,ta.largura,ta.altura FROM areaTexto ta JOIN campo c ON c.id=ta.id WHERE ta.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
+						console.log('area');
 						
-								console.log(result);
-							
+								response.write(result[0].html);
+						//	console.log(response);
 						
 					});
 					
 				break;
 				case 'lista':
-					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					sql = "SELECT c.*,l.opcoes FROM lista l JOIN campo c ON c.id=l.id WHERE l.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						
-								console.log(result);
-							
+						console.log('lista');
+							response.write(result[0].html);
+							//console.log(response);
 						
 					});
 				break;
 				case 'marcacao':
-					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					sql = "SELECT c.*,m.opcoes,m.multipla FROM caixa m JOIN campo c ON c.id=m.id WHERE m.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						
-								console.log(result);
-							
+						console.log('marcacao');
+								response.write(result[0].html);
+					//		console.log(response);
+					//		response.end();
 						
 					});
 				break;
 				case 'upload':
-					sql = "SELECT tamanho,validacao FROM texto WHERE id="+campos[i].id;
+					sql = "SELECT c.*,u.caminho FROM upload u JOIN campo c ON c.id=u.id WHERE u.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						
-								console.log(result);
-							
+						console.log('up');
+								response.write(result[0].html);
+						//	console.log(response);
 						
 					});
 				break;
+				case 'ultimo':
+				console.log('ult');
+					db.selectResponse("SELECT * FROM campo",response,function(response,result){
+						response.end('</body></html>');
+					})
+				break;
 				
 			}
+		
 		}
+	
 		
 
 }
