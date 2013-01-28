@@ -1,7 +1,9 @@
 var num_campos = 0;
 
 function campoTexto(pai){
-	var campo = "<div class=campo id=texto_"+num_campos+"><table>"
+	
+	
+		var campo = "<div class=campo id=texto_"+num_campos+"><table>"
 					+
 				"<tr>Campo Texto </tr>"
 				    +
@@ -35,7 +37,7 @@ function campoTexto(pai){
 					
 					
 	$(campo).appendTo('#'+pai);
-}
+	}
 
 function campoAreaTexto(pai){
 	var campo = "<div class=campo id=areatexto_"+num_campos+"><table>"
@@ -123,12 +125,12 @@ function campoCaixaDeMarcacao(pai){
 				
 }
 
-function adicionaCampo( pai,  tipo){
+function adicionaCampo( pai,  tipo,dados){
 	
 	num_campos++;
 	switch(tipo){
 		case 'texto':
-			campoTexto(pai);
+			campoTexto(pai,dados);
 		break;
 		case 'area':
 			campoAreaTexto(pai);

@@ -330,9 +330,9 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 	var c = config.retornaConfiguracao();	
 	db.conect(c.user,c.password,c.host,c.db);
 	var sql = 'SELECT f.id as idform,f.nome as formulario,c.id,c.nome,c.tipo,c.obrigatorio,c.html FROM formulario f JOIN campo c ON c.id_formulario = f.id WHERE f.id ='+request.query.id;
+	console.log(sql);
 	
-	
-	db.selectResponse(sql,response,function(result){
+	db.selectResponse(sql,response,function(response,result){
 	
 	
 	
@@ -768,17 +768,133 @@ function montarFormularioEdicao(response,result){
 	var campos  = result;
 	campos.push(JSON.parse("{\"tipo\": \"ultimo\"}"));
 	console.log(campos);
-	response.write('<html><head></head><body>');
+	
+	
+	var html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN \"http://www.w3.org/TR/html4/strict.dtd\">"
+	+
+	"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">"
+	+
+	"<head>"
+	+
+	"	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"
+	+
+	"<title>cadastro</title>"
+	+
+	"<meta name=\"author\" content=\"Hermes\" />"
+	+
+	"<script type=\"text/javascript\" src=\"javascripts/jquery.js\"></script>"
+	+
+	"<script type=\"text/javascript\" src=\"javascripts/campos.js\"></script>"
+	+		
+	"</head>"
+	+
+	"<body>"
+	+
+	"<form method=\post\ action=\/gerenciarformulario\>"
+	+
+	"<table style=\"width: 100%; background-color:#D8DBDC\">"
+	+
+	"<tr>"
+	+
+	"<td style=\"width: 25%\">"
+	+
+	"<label>Nome do formulário</label>"
+	+
+	"</td>"
+	+
+	"<td>"
+	+
+	"<input type=\"text\" name=\"form[name]\" style=\"width: 97%\" />"
+	+
+	"</td>"
+	+
+	"</tr>"
+	+
+	"<tr>"
+	+
+	"<td>"
+	+
+	"<label for='tipos'>Campos:</label>"
+	+
+	"</td>"
+	+
+	"<td>"
+	+
+	"<select id='tipos' style=\"width: 73%\">"
+	+
+	"<option value=\"texto\">Texto</option>"
+	+
+	"<option value=\"area\">Área de texto</option>"
+	+
+	"<option value=\"lista\">Lista</option>"
+	+
+	"<option value=\"caixa\">Caixa de Marcação</option>"
+	+
+	"<option value=\"up\">Upload</option>"
+	+
+	"</select>"
+	+
+	"<input type=\"button\" id=\"add\" value=\"Adicionar Campo\" onclick=\"adicionaCampo('campos',$('#tipos option:selected').val())\" />"
+	+
+	"</td>"
+	+
+	"</tr>"
+	+
+	"</table>"
+	+	
+	"<hr>"
+	+
+	"<div style=\"width: 100%\" id='campos'>";
+	
+	response.write(html);
+	
 	for(var i = 0; i <  campos.length; i++){
 			switch(campos[i].tipo){
 				case 'texto':
 					sql = "SELECT c.*,t.tamanho,t.validacao FROM texto t JOIN campo c ON c.id = t.id WHERE t.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						console.log('texto');
-						console.log(response);
-								response.write(result[0].html);
-								//console.log(response);
+						var campo = "<div class=campo ><table>"
+						+
+						"<tr>Campo Texto </tr>"
+				    	+
+						""    	
+						+
+						"<tr><td>Marcador:</td><td><input type=text  /></td></tr>"	
+						+
+						"<tr><td>Tamanho Máximo:</td><td><input type=text  /></td></tr>"
+						+
+						"<tr><td>Obrigatório</td><td><input type=checkbox  /></td></tr>"	
+						+
+						"<tr><td>Validação:</td><td><select >"
+						+
+						"<option value='0' >...</option>"
+						+
+						"<option value='1' >Números</option>"
+						+
+						"<option value='2' >Telefone/celular</option>"
+						+
+						"<option value='3' >Email</option>"
+						+
+						"<option value='4'>CPF</option>"
+						+
+						"<option value='5'>Data</option>"
+						+
+						"</select></td></tr>"	
+						+
+						"<tr><td><input type = hidden  value='texto'></td></tr>"
+						+
+						"<tr><td><input align='right' value='Remover' type='button' ></td>"
+						+
+						"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>"
+						+
+						"</div>";
+
+						
+						
+						
+						response.write(campo);
+						
 						
 					});
 						
@@ -790,7 +906,7 @@ function montarFormularioEdicao(response,result){
 					db.selectResponse(sql,response,function(response,result){
 						console.log('area');
 						
-								response.write(result[0].html);
+								response.write("<script type=text/javascript>adicionaCampo('campos','area');</script>");
 						//	console.log(response);
 						
 					});
@@ -800,9 +916,8 @@ function montarFormularioEdicao(response,result){
 					sql = "SELECT c.*,l.opcoes FROM lista l JOIN campo c ON c.id=l.id WHERE l.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						console.log('lista');
-							response.write(result[0].html);
-							//console.log(response);
+						
+							response.write("<script type=text/javascript>adicionaCampo('campos','lista');</script>");
 						
 					});
 				break;
@@ -810,27 +925,42 @@ function montarFormularioEdicao(response,result){
 					sql = "SELECT c.*,m.opcoes,m.multipla FROM caixa m JOIN campo c ON c.id=m.id WHERE m.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						console.log('marcacao');
-								response.write(result[0].html);
-					//		console.log(response);
-					//		response.end();
-						
+							response.write("<script type=text/javascript>adicionaCampo('campos','caixa');</script>");
 					});
 				break;
 				case 'upload':
 					sql = "SELECT c.*,u.caminho FROM upload u JOIN campo c ON c.id=u.id WHERE u.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						console.log('up');
-								response.write(result[0].html);
-						//	console.log(response);
+							response.write("<script type=text/javascript>adicionaCampo('campos','up');</script>");
+						
 						
 					});
 				break;
 				case 'ultimo':
 				console.log('ult');
 					db.selectResponse("SELECT * FROM campo",response,function(response,result){
-						response.end('</body></html>');
+						html = 	"</div>"
+						+
+						"<fieldset>"
+						+
+						"<legend>Personalização:</legend>"
+						+
+						"<label>Mensagem de envio:</label>"
+						+
+						"<input type=\"text\" value=\"Dados enviados com sucesso\"  style=\"width: 70%\"/>"
+						+
+						"</fieldset>"
+						+
+						"<input type=\"submit\" />"
+						+
+						"</form>"
+						+
+						"</body>"
+						+
+						"</html>";
+						
+						response.end(html);
 					})
 				break;
 				
