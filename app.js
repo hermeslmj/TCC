@@ -99,6 +99,11 @@ app.post('/inserirDados',function(request,response){
 	GerenciadorDeRequisicao.inserirDados(request,response);
 });
 
+app.post('/deletarcampo',function(request,response){
+	console.log(request.body);
+});
+
+
 // Fim Routes
 
 app.listen(3000, function(){

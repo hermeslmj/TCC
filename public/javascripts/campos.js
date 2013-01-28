@@ -125,12 +125,12 @@ function campoCaixaDeMarcacao(pai){
 				
 }
 
-function adicionaCampo( pai,  tipo,dados){
+function adicionaCampo( pai,tipo){
 	
 	num_campos++;
 	switch(tipo){
 		case 'texto':
-			campoTexto(pai,dados);
+			campoTexto(pai);
 		break;
 		case 'area':
 			campoAreaTexto(pai);
@@ -146,6 +146,26 @@ function adicionaCampo( pai,  tipo,dados){
 		break;
 	}	
 
+};
+function deletacampo(id){
+				var data = {};
+				data.id = id;
+				$.ajax({
+						
+					
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:3000/deletarcampo',						
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+}
+
+function editartexto(id,nome,tamanho,obrigatorio,validacao){
+	alert(nome);
 }
 
 

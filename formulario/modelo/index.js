@@ -854,39 +854,53 @@ function montarFormularioEdicao(response,result){
 					sql = "SELECT c.*,t.tamanho,t.validacao FROM texto t JOIN campo c ON c.id = t.id WHERE t.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						var campo = "<div class=campo ><table>"
+						var obr = (result[0].obrigatorio == 1) ? "checked" : "";
+						var valid = new Array(6);
+						var i = 0;
+												
+						for(i = 0; i < 6; i++){
+							if(result[0].validacao == i){
+
+								valid[i] = 'selected';
+							}
+							
+							else{
+								valid[i] = '';}
+						}
+						
+						var campo = "<div class=campo   id= "+result[0].id+" ><table>"
 						+
 						"<tr>Campo Texto </tr>"
 				    	+
-						""    	
+						
+						
+						"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" /></td></tr>"	
 						+
-						"<tr><td>Marcador:</td><td><input type=text  /></td></tr>"	
+						"<tr><td>Tamanho Máximo:</td><td><input type=text name = form[campo"+result[0].id+"][comprimento] id=campo"+result[0].id+"comprimento value="+result[0].tamanho+" /></td></tr>"
 						+
-						"<tr><td>Tamanho Máximo:</td><td><input type=text  /></td></tr>"
+						"<tr><td>Obrigatório</td><td><input type=checkbox  name = form[campo"+result[0].id+"][obrigatorio] id=campo"+result[0].id+"obrigatorio checked="+obr+" /></td></tr>"	
 						+
-						"<tr><td>Obrigatório</td><td><input type=checkbox  /></td></tr>"	
+						"<tr><td>Validação:</td><td><select name = form[campo"+result[0].id+"][validacao] id=campo"+result[0].id+"validacao >"
 						+
-						"<tr><td>Validação:</td><td><select >"
+						"<option value='0' "+valid[0]+" >...</option>"
 						+
-						"<option value='0' >...</option>"
+						"<option value='1' "+valid[1]+" >Números</option>"
 						+
-						"<option value='1' >Números</option>"
+						"<option value='2' "+valid[2]+" >Telefone/celular</option>"
 						+
-						"<option value='2' >Telefone/celular</option>"
+						"<option value='3' "+valid[3]+" >Email</option>"
 						+
-						"<option value='3' >Email</option>"
+						"<option value='4' "+valid[4]+" >CPF</option>"
 						+
-						"<option value='4'>CPF</option>"
-						+
-						"<option value='5'>Data</option>"
+						"<option value='5' "+valid[5]+" >Data</option>"
 						+
 						"</select></td></tr>"	
 						+
-						"<tr><td><input type = hidden  value='texto'></td></tr>"
+						"<tr><td><input type = hidden  name = form[campo"+result[0].id+"][tipo] value='texto'></td></tr>"
 						+
-						"<tr><td><input align='right' value='Remover' type='button' ></td>"
+						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
 						+
-						"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>"
+						"<td><input align='right' value='Editar' type='button' onclick='editartexto("+result[0].id+",$('#campo"+result[0].id+"marcador'),$('#campo"+result[0].id+"comprimento'),$(#campo"+result[0].id+"obrigatorio).is(:checked), )></td></tr></table><hr>"
 						+
 						"</div>";
 
@@ -906,7 +920,36 @@ function montarFormularioEdicao(response,result){
 					db.selectResponse(sql,response,function(response,result){
 						console.log('area');
 						
-								response.write("<script type=text/javascript>adicionaCampo('campos','area');</script>");
+								
+									var campo = "<div class=campo id="+result[0].id+"><table>"
+					+
+				"<tr>Área de Texto </tr>"
+				    +
+				""    	
+					+
+
+				"<tr><td>Marcador:</td><td><input type=text  /></td></tr>"	
+				
+					+
+				/*"<tr><td>Largura</td><td><input type=text name = form[campo"+num_campos+"][largura] /></td></tr>"	
+					+
+				"<tr><td>Altura</td><td><input type=text name = form[campo"+num_campos+"][altura] /></td></tr>"
+					+*/
+				
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+
+					+
+				"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='area'></td></tr>"
+					+
+				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+						+
+				"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>";
+					
+					
+								
+								
+								
+								response.write(campo);
 						//	console.log(response);
 						
 					});
@@ -916,8 +959,23 @@ function montarFormularioEdicao(response,result){
 					sql = "SELECT c.*,l.opcoes FROM lista l JOIN campo c ON c.id=l.id WHERE l.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-						
-							response.write("<script type=text/javascript>adicionaCampo('campos','lista');</script>");
+						var campo = "<div class=campo id="+result[0].id+"><table>"
+					+
+				"<tr>Lista </tr>"
+					+
+
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] /></td></tr>"
+					+
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+					+
+				"<tr><td>Opções(Digite as opções da lista separadas por vírgula)</td><td><input type = text name = form[campo"+result[0].id+"][opcoes] /></td></tr>"
+					+	
+					"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='lista'></td></tr>"
+					+
+				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+						+
+				"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>";
+							response.write(campo);
 						
 					});
 				break;
@@ -925,14 +983,47 @@ function montarFormularioEdicao(response,result){
 					sql = "SELECT c.*,m.opcoes,m.multipla FROM caixa m JOIN campo c ON c.id=m.id WHERE m.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-							response.write("<script type=text/javascript>adicionaCampo('campos','caixa');</script>");
+						var campo = "<div class=campo id="+result[0].id+"><table>"
+					+
+				"<tr>Caixa de Marcação </tr>"
+					+
+
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] /></td></tr>"
+					+
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+					+
+				"<td>Opção única:</td><td><input type=radio value = unica name= form[campo"+result[0].id+"][multipla] /></td><td>Opções multiplas</td><td><input type=radio value = multi name=form[campo"+result[0].id+"][multipla] /></td>"
+					+
+				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = form[campo"+result[0].id+"][opcoes] /></td></tr>"
+					+	
+					"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='marcacao'></td></tr>"
+					+
+						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+						+
+				"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>";
+							response.write(campo);
 					});
 				break;
 				case 'upload':
 					sql = "SELECT c.*,u.caminho FROM upload u JOIN campo c ON c.id=u.id WHERE u.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
-							response.write("<script type=text/javascript>adicionaCampo('campos','up');</script>");
+									var campo = "<div class=campo id="+result[0].id+"><table>"
+					+
+				"<tr>Upload de arquivo </tr>"
+				    +
+				
+
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] /></td></tr>"	
+					+
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+				+
+				"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='upload'></td></tr>"
+					+
+		"</table><input align='right' value='Remover' type='button' onclick=$('#upload_"+result[0].id+"').remove();><hr></div>";
+					
+							
+							response.write(campo);
 						
 						
 					});
