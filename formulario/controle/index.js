@@ -32,6 +32,9 @@ ControleFormulario.prototype.excluirdado = function(request,response){
 ControleFormulario.prototype.editarform = function(request,response){
 	this.modeloFormulario.editarform(request,response);
 }
+ControleFormulario.prototype.apagarCampo = function(dados,response){
+	this.modeloFormulario.apagarCampo(dados,response);
+}
 
 module.exports = ControleFormulario;
 

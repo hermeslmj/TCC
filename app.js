@@ -100,11 +100,13 @@ app.post('/inserirDados',function(request,response){
 });
 
 app.post('/deletarcampo',function(request,response){
-	console.log(request.body);
+	GerenciadorDeRequisicao.apagarCampo(request.body,response);
+	
 });
 
 app.post('/editarcampo',function(request,response){
-	console.log(request.body);
+	GerenciadorDeRequisicao.editarCampo(request.body,response);
+	
 })
 
 

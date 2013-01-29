@@ -460,5 +460,9 @@ GerenciadorDeRequisicao.prototype.editarform = function (request,response){
 	this.controleDeFormulario.editarform(request,response);
 }
 
+GerenciadorDeRequisicao.prototype.apagarCampo = function(dados,response){
+	this.controleDeFormulario.apagarCampo(dados,response);
+}
+
 
 module.exports = GerenciadorDeRequisicao;

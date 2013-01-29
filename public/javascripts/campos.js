@@ -147,12 +147,12 @@ function adicionaCampo( pai,tipo){
 	}	
 
 };
-function deletacampo(id){
+function deletacampo(id,form,marcador){
 				var data = {};
 				data.id = id;
+				data.form = form;
+				data.marcador = marcador
 				$.ajax({
-						
-					
 						type: 'POST',
 						data: JSON.stringify(data),
 				        contentType: 'application/json',
@@ -164,13 +164,14 @@ function deletacampo(id){
                     });
 }
 
-function editartexto(id,nome,tamanho,obrigatorio,validacao){
+function editartexto(id,nome,tamanho,obrigatorio,validacao,form){
 	var data = {};
 				data.id = id;
 				data.nome = nome;
-				data.tamanho = tamamho;
+				data.tamanho = tamanho;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
 				data.validacao = validacao;
+				data.form = form;
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify(data),
@@ -184,11 +185,12 @@ function editartexto(id,nome,tamanho,obrigatorio,validacao){
 	
 }
 
-function editararea(id,nome,obrigatorio){
+function editararea(id,nome,obrigatorio,form){
 	
 	var data = {};
 				data.id = id;
 				data.nome = nome;
+				data.form = form;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
 				
 				$.ajax({
@@ -205,11 +207,12 @@ function editararea(id,nome,obrigatorio){
 	
 	
 }
-function editarlista(id,nome,obrigatorio,opt){
+function editarlista(id,nome,obrigatorio,opt,form){
 	var data = {};
 				data.id = id;
 				data.nome = nome;
 				data.opt = opt;
+				data.form = form;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
 				
 				$.ajax({
@@ -223,11 +226,12 @@ function editarlista(id,nome,obrigatorio,opt){
                         }
                     });
 }
-function editarcaixa(id,nome,obrigatorio,opcoes,mult,unica){
+function editarcaixa(id,nome,obrigatorio,opcoes,mult,unica,form){
 	var data = {};
 				data.id = id;
 				data.nome = nome;
 				data.opcoes = opcoes;
+				data.form = form;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
 				data.multipla = (mult == true) ? 1 : 0;
 				

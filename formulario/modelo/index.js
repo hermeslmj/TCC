@@ -873,7 +873,9 @@ function montarFormularioEdicao(response,result){
 						+
 						"<tr>Campo Texto </tr>"
 				    	+
-						"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" ></td></tr>"	
+				    	"<input type=hidden name = form[campo"+result[0].id+"][form]  id=campo"+result[0].id+"form value="+result[0].id_formulario+">"
+				    	+
+				    	"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+"  readonly ></td></tr>"	
 						+
 						"<tr><td>Tamanho Máximo:</td><td><input type=text name = form[campo"+result[0].id+"][comprimento] id=campo"+result[0].id+"comprimento value="+result[0].tamanho+" ></td></tr>"
 						+
@@ -897,9 +899,9 @@ function montarFormularioEdicao(response,result){
 						+
 						"<tr><td><input type = hidden  name = form[campo"+result[0].id+"][tipo] value='texto'></td></tr>"
 						+
-						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-						"<td><input align=right value=Editar type=button onclick='editartexto("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"comprimento\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"validacao :selected\").val())'></td></tr></table><hr>"
+						"<td><input align=right value=Editar type=button onclick='editartexto("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"comprimento\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"validacao :selected\").val(),$(\"#campo"+result[0].id+"form\").val())'></td></tr></table><hr>"
 						+
 						"</div>";
 
@@ -924,10 +926,11 @@ function montarFormularioEdicao(response,result){
 					+
 				"<tr>Área de Texto </tr>"
 				    +
-				""    	
+				
+				    	"<input type=hidden name = form[campo"+result[0].id+"][form] id=campo"+result[0].id+"form value="+result[0].id_formulario+">"
 					+
 
-				"<tr><td>Marcador:</td><td><input type=text  name = form[campo"+result[0].id+"][marcador] id = campo"+result[0].id+"marcador value="+result[0].nome+" ></td></tr>"	
+				"<tr><td>Marcador:</td><td><input type=text  name = form[campo"+result[0].id+"][marcador] id = campo"+result[0].id+"marcador value="+result[0].nome+" readonly ></td></tr>"	
 				
 					+
 				/*"<tr><td>Largura</td><td><input type=text name = form[campo"+num_campos+"][largura] /></td></tr>"	
@@ -940,9 +943,9 @@ function montarFormularioEdicao(response,result){
 					+
 				"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='area'></td></tr>"
 					+
-				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' onclick='editararea("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"))' ></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editararea("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"form\").val())' ></td></tr></table><hr>";
 				+"</div>"
 					response.write(campo);
 						//	console.log(response);
@@ -961,8 +964,10 @@ function montarFormularioEdicao(response,result){
 					+
 				"<tr>Lista </tr>"
 					+
+				    	"<input type=hidden name = form[campo"+result[0].id+"][form] id=campo"+result[0].id+"form value="+result[0].id_formulario+">"
+					+
 
-				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+"></td></tr>"
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" readonly></td></tr>"
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] id=campo"+result[0].id+"obrigatorio "+obr+" ></td></tr>"
 					+
@@ -970,9 +975,9 @@ function montarFormularioEdicao(response,result){
 					+	
 					"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='lista'></td></tr>"
 					+
-				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' onclick='editarlista("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val())' ></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editarlista("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"form\").val())' ></td></tr></table><hr>";
 							response.write(campo);
 						
 					});
@@ -990,8 +995,10 @@ function montarFormularioEdicao(response,result){
 					+
 				"<tr>Caixa de Marcação </tr>"
 					+
-
-				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" ></td></tr>"
+					
+				    	"<input type=hidden name = form[campo"+result[0].id+"][form]  id=campo"+result[0].id+"form value="+result[0].id_formulario+">"
++
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+"  readonly></td></tr>"
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio]  id=campo"+result[0].id+"obrigatorio "+obr+"/></td></tr>"
 					+
@@ -1001,9 +1008,9 @@ function montarFormularioEdicao(response,result){
 					+	
 					"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='marcacao'></td></tr>"
 					+
-						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
+						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' onclick='editarcaixa("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"multi \").is(\":checked\"),$(\"#campo"+result[0].id+"unica \").is(\":checked\"))'></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editarcaixa("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"multi \").is(\":checked\"),$(\"#campo"+result[0].id+"unica \").is(\":checked\"),$(\"#campo"+result[0].id+"form\").val())'></td></tr></table><hr>";
 							response.write(campo);
 					});
 				break;
@@ -1014,10 +1021,12 @@ function montarFormularioEdicao(response,result){
 									var campo = "<div class=campo id="+result[0].id+"><table>"
 					+
 				"<tr>Upload de arquivo </tr>"
+				   +
+				    	"<input type=hidden name = form[campo"+result[0].id+"][form]  id=campo"+result[0].id+"form value="+result[0].id_formulario+">"
 				    +
 				
 
-				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] /></td></tr>"	
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] readonly /></td></tr>"	
 					+
 				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
 				+
@@ -1079,5 +1088,12 @@ ModeloFormulario.prototype.editarform = function(request,response){
 	
 	
 }
+ModeloFormulario.prototype.apagarCampo = function(dados,response){
+	var sql = "ALTER TABLE frm"+dados.form+" DROP COLUMN "+dados.marcador;
+	var sql2 = "DELETE FROM campo WHERE id="+dados.id;
+	console.log(sql);
+	console.log(sql2);
+}
+
 
 module.exports = ModeloFormulario;
