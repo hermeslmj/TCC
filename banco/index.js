@@ -63,6 +63,13 @@ Banco.prototype.selectResponse = function(sql,response,funcao){
 	});
 }
 
+Banco.prototype.selectResponse2 = function(sql,response,funcao){
+	
+	this.conexao.query(sql,function(err,result,field){
+			funcao(response,result,field);
+	});
+}
+
 Banco.prototype.executar = function(sql){
 	this.conexao.query(sql);
 }

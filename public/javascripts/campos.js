@@ -165,9 +165,84 @@ function deletacampo(id){
 }
 
 function editartexto(id,nome,tamanho,obrigatorio,validacao){
-	alert(nome);
+	var data = {};
+				data.id = id;
+				data.nome = nome;
+				data.tamanho = tamamho;
+				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
+				data.validacao = validacao;
+				$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:3000/editarcampo',						
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+	
 }
 
+function editararea(id,nome,obrigatorio){
+	
+	var data = {};
+				data.id = id;
+				data.nome = nome;
+				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
+				
+				$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:3000/editarcampo',						
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+	
+	
+	
+}
+function editarlista(id,nome,obrigatorio,opt){
+	var data = {};
+				data.id = id;
+				data.nome = nome;
+				data.opt = opt;
+				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
+				
+				$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:3000/editarcampo',						
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+}
+function editarcaixa(id,nome,obrigatorio,opcoes,mult,unica){
+	var data = {};
+				data.id = id;
+				data.nome = nome;
+				data.opcoes = opcoes;
+				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
+				data.multipla = (mult == true) ? 1 : 0;
+				
+				$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:3000/editarcampo',						
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+	
+}
 
 
 

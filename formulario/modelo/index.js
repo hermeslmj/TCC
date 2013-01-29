@@ -118,13 +118,13 @@ function inserirCampos(idForm,dados){
     					if(obrigatorio){
     						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+" class=required ";
     					}else{
-    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+"' ";
+    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+"  class='";
     					}
     				}else{
     					if(obrigatorio){
     						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='required ";
     					}else{
-    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] '";
+    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='";
     					}	
     					
     				}
@@ -535,12 +535,13 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 		console.log(sql);
 	}else{
 		var sql = 'SELECT * FROM frm'+request.query.id;	
+		console.log(sql);
 	}
 	
 	
 	
 	
-	db.selectResponse(sql,response,function(result,field){
+	db.selectResponse2(sql,response,function(response,result,field){
 	
 	
 	
@@ -548,8 +549,8 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 	var numCampos = result.length;
 	
 	var c = 0;
-	
-	console.log(result);
+	console.log(field);
+	//console.log(result);
 	
 	//console.log(campos);	
 		var html = " <!DOCTYPE html PUBLIC \"-\"http://www.w3.org/TR/html4/strict.dtd\">"
@@ -612,9 +613,9 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 				
 				html += "<form name=pesquisa action=/verform method=get><table><tr><td>Filtrar</td><td><input type=hidden name=pesquisar[id] value="+request.query.id+"></td><td><select id=campo name=pesquisar[campo]>"; 
 				
-				for(var h in field){
-					
-					html += "<option value="+field[h].name+">"+field[h].name+"</option>"
+				for(var q in field){
+					console.log(q);
+					html += "<option value="+field[q].name+">"+field[q].name+"</option>"
 				}
 				html +="</select></td><td><input type=text name=pesquisar[filtro] /></td><td><input type=submit value=Pesquisar></td></tr></table></form>"
 				
@@ -642,7 +643,7 @@ ModeloFormulario.prototype.verDados =  function(request,response){
 					campo = campos[i];
 					teste = c;
 					for(var j in campos[i]){
-						console.log(j);
+						//console.log(j);
 						html += "<td>"+campo[j]+"</td>";
 						teste--;
 						if(teste == 0)break;
@@ -860,25 +861,23 @@ function montarFormularioEdicao(response,result){
 												
 						for(i = 0; i < 6; i++){
 							if(result[0].validacao == i){
-
 								valid[i] = 'selected';
 							}
 							
 							else{
-								valid[i] = '';}
+								valid[i] = '';
+								}
 						}
 						
 						var campo = "<div class=campo   id= "+result[0].id+" ><table>"
 						+
 						"<tr>Campo Texto </tr>"
 				    	+
-						
-						
-						"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" /></td></tr>"	
+						"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" ></td></tr>"	
 						+
-						"<tr><td>Tamanho Máximo:</td><td><input type=text name = form[campo"+result[0].id+"][comprimento] id=campo"+result[0].id+"comprimento value="+result[0].tamanho+" /></td></tr>"
+						"<tr><td>Tamanho Máximo:</td><td><input type=text name = form[campo"+result[0].id+"][comprimento] id=campo"+result[0].id+"comprimento value="+result[0].tamanho+" ></td></tr>"
 						+
-						"<tr><td>Obrigatório</td><td><input type=checkbox  name = form[campo"+result[0].id+"][obrigatorio] id=campo"+result[0].id+"obrigatorio checked="+obr+" /></td></tr>"	
+						"<tr><td>Obrigatório</td><td><input type=checkbox  name = form[campo"+result[0].id+"][obrigatorio] id=campo"+result[0].id+"obrigatorio checked="+obr+" ></td></tr>"	
 						+
 						"<tr><td>Validação:</td><td><select name = form[campo"+result[0].id+"][validacao] id=campo"+result[0].id+"validacao >"
 						+
@@ -900,7 +899,7 @@ function montarFormularioEdicao(response,result){
 						+
 						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
 						+
-						"<td><input align='right' value='Editar' type='button' onclick='editartexto("+result[0].id+",$('#campo"+result[0].id+"marcador'),$('#campo"+result[0].id+"comprimento'),$(#campo"+result[0].id+"obrigatorio).is(:checked), )></td></tr></table><hr>"
+						"<td><input align=right value=Editar type=button onclick='editartexto("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"comprimento\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"validacao :selected\").val())'></td></tr></table><hr>"
 						+
 						"</div>";
 
@@ -919,7 +918,7 @@ function montarFormularioEdicao(response,result){
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
 						console.log('area');
-						
+						var obr = (result[0].obrigatorio == 1) ? "checked" : "";
 								
 									var campo = "<div class=campo id="+result[0].id+"><table>"
 					+
@@ -928,7 +927,7 @@ function montarFormularioEdicao(response,result){
 				""    	
 					+
 
-				"<tr><td>Marcador:</td><td><input type=text  /></td></tr>"	
+				"<tr><td>Marcador:</td><td><input type=text  name = form[campo"+result[0].id+"][marcador] id = campo"+result[0].id+"marcador value="+result[0].nome+" ></td></tr>"	
 				
 					+
 				/*"<tr><td>Largura</td><td><input type=text name = form[campo"+num_campos+"][largura] /></td></tr>"	
@@ -936,20 +935,16 @@ function montarFormularioEdicao(response,result){
 				"<tr><td>Altura</td><td><input type=text name = form[campo"+num_campos+"][altura] /></td></tr>"
 					+*/
 				
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] id=campo"+result[0].id+"obrigatorio  checked="+obr+" ></td></tr>"
 
 					+
 				"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='area'></td></tr>"
 					+
 				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>";
-					
-					
-								
-								
-								
-								response.write(campo);
+				"<td><input align='right' value='Editar' type='button' onclick='editararea("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"))' ></td></tr></table><hr>";
+				+"</div>"
+					response.write(campo);
 						//	console.log(response);
 						
 					});
@@ -958,23 +953,26 @@ function montarFormularioEdicao(response,result){
 				case 'lista':
 					sql = "SELECT c.*,l.opcoes FROM lista l JOIN campo c ON c.id=l.id WHERE l.id="+campos[i].id;
 					console.log(sql);
+							
+					
 					db.selectResponse(sql,response,function(response,result){
+						var obr = (result[0].obrigatorio == 1) ? "checked" : "";
 						var campo = "<div class=campo id="+result[0].id+"><table>"
 					+
 				"<tr>Lista </tr>"
 					+
 
-				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] /></td></tr>"
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+"></td></tr>"
 					+
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] id=campo"+result[0].id+"obrigatorio "+obr+" ></td></tr>"
 					+
-				"<tr><td>Opções(Digite as opções da lista separadas por vírgula)</td><td><input type = text name = form[campo"+result[0].id+"][opcoes] /></td></tr>"
+				"<tr><td>Opções(Digite as opções da lista separadas por vírgula)</td><td><input type = text name = form[campo"+result[0].id+"][opcoes] id=campo"+result[0].id+"opcoes value="+result[0].opcoes+" ></td></tr>"
 					+	
 					"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='lista'></td></tr>"
 					+
 				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editarlista("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val())' ></td></tr></table><hr>";
 							response.write(campo);
 						
 					});
@@ -983,24 +981,29 @@ function montarFormularioEdicao(response,result){
 					sql = "SELECT c.*,m.opcoes,m.multipla FROM caixa m JOIN campo c ON c.id=m.id WHERE m.id="+campos[i].id;
 					console.log(sql);
 					db.selectResponse(sql,response,function(response,result){
+						var mult = "";
+						var single = "";
+						multi = (result[0].multipla == 1) ? "checked": "";
+						single = (result[0].multipla == 0) ? "checked": "";
+						var obr = (result[0].obrigatorio == 1) ? "checked" : "";
 						var campo = "<div class=campo id="+result[0].id+"><table>"
 					+
 				"<tr>Caixa de Marcação </tr>"
 					+
 
-				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] /></td></tr>"
+				"<tr><td>Marcador:</td><td><input type=text name = form[campo"+result[0].id+"][marcador] id=campo"+result[0].id+"marcador value="+result[0].nome+" ></td></tr>"
 					+
-				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio] /></td></tr>"
+				"<tr><td>Obrigatório</td><td><input type=checkbox name = form[campo"+result[0].id+"][obrigatorio]  id=campo"+result[0].id+"obrigatorio "+obr+"/></td></tr>"
 					+
-				"<td>Opção única:</td><td><input type=radio value = unica name= form[campo"+result[0].id+"][multipla] /></td><td>Opções multiplas</td><td><input type=radio value = multi name=form[campo"+result[0].id+"][multipla] /></td>"
+				"<td>Opção única:</td><td><input type=radio value = unica name= form[campo"+result[0].id+"][multipla] id=campo"+result[0].id+"unica "+single+" /></td><td>Opções multiplas</td><td><input type=radio value = multi name=form[campo"+result[0].id+"][multipla] id=campo"+result[0].id+"multi "+multi+"/></td>"
 					+
-				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = form[campo"+result[0].id+"][opcoes] /></td></tr>"
+				"<tr><td>Opções(Digite as opções da caixa separadas por vírgula)</td><td><input type = text name = form[campo"+result[0].id+"][opcoes] id=campo"+result[0].id+"opcoes  value="+result[0].opcoes+"></td></tr>"
 					+	
 					"<tr><td><input type = hidden name = form[campo"+result[0].id+"][tipo] value='marcacao'></td></tr>"
 					+
 						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+")' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' ></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editarcaixa("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"multi \").is(\":checked\"),$(\"#campo"+result[0].id+"unica \").is(\":checked\"))'></td></tr></table><hr>";
 							response.write(campo);
 					});
 				break;

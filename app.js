@@ -103,6 +103,10 @@ app.post('/deletarcampo',function(request,response){
 	console.log(request.body);
 });
 
+app.post('/editarcampo',function(request,response){
+	console.log(request.body);
+})
+
 
 // Fim Routes
 
