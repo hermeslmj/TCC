@@ -1114,7 +1114,7 @@ ModeloFormulario.prototype.editarCampo = function(dados,response){
 					html = "";
     				marcador = dados.nome;
     				obrigatorio = dados.obrigatorio;
-    				var tamanho = ((dados.comprimento == "") ? 0 : dados.comprimento);
+    				var tamanho = ((dados.tamanho == "") ? 0 : dados.tamanho);
     				var validacao = dados.validacao;
     				var idForm = dados.form;
     				var tipo = dados.tipo;
@@ -1157,7 +1157,16 @@ ModeloFormulario.prototype.editarCampo = function(dados,response){
     				
     				
     				sqlcampo = "UPDATE 	`campo` SET `nome` = '"+marcador+"',`tipo` = '"+tipo+"',`obrigatorio` = "+obrigatorio+",`html` = \""+html+"\" WHERE `id`="+dados.id;
-    				console.log(sqlcampo);
+    				sqlespecifico = "UPDATE `texto` SET `tamanho` = '"+tamanho+"',   `validacao` = '"+validacao+"'";
+    				if(tamanho == 0){
+    					
+    					table += "ALTER frm"+dados.form+"  "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    				} else{
+    					table += ","+marcador+" VARCHAR("+ tamanho +") "+((obrigatorio == 1) ? "NOT NULL" : "");
+    				}
+    				
+    				
+    				console.log(table);
     				//db.executar(sqlcampo);
     		
 		break;
