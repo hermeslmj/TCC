@@ -158,13 +158,15 @@ function deletacampo(id,form,marcador){
 				        contentType: 'application/json',
                         url: 'http://localhost:3000/deletarcampo',						
                         success: function(data) {
+                        	
                             console.log('success');
                             console.log(JSON.stringify(data));
                         }
                     });
+                    
 }
 
-function editartexto(id,nome,tamanho,obrigatorio,validacao,form){
+function editartexto(id,nome,tamanho,obrigatorio,validacao,form,tipo){
 	var data = {};
 				data.id = id;
 				data.nome = nome;
@@ -172,6 +174,7 @@ function editartexto(id,nome,tamanho,obrigatorio,validacao,form){
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
 				data.validacao = validacao;
 				data.form = form;
+				data.tipo = tipo;
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify(data),
@@ -185,14 +188,14 @@ function editartexto(id,nome,tamanho,obrigatorio,validacao,form){
 	
 }
 
-function editararea(id,nome,obrigatorio,form){
+function editararea(id,nome,obrigatorio,form,tipo){
 	
 	var data = {};
 				data.id = id;
 				data.nome = nome;
 				data.form = form;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
-				
+				data.tipo = tipo;
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify(data),
@@ -207,14 +210,14 @@ function editararea(id,nome,obrigatorio,form){
 	
 	
 }
-function editarlista(id,nome,obrigatorio,opt,form){
+function editarlista(id,nome,obrigatorio,opt,form,tipo){
 	var data = {};
 				data.id = id;
 				data.nome = nome;
 				data.opt = opt;
 				data.form = form;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
-				
+				data.tipo = tipo;
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify(data),
@@ -226,7 +229,7 @@ function editarlista(id,nome,obrigatorio,opt,form){
                         }
                     });
 }
-function editarcaixa(id,nome,obrigatorio,opcoes,mult,unica,form){
+function editarcaixa(id,nome,obrigatorio,opcoes,mult,unica,form,tipo){
 	var data = {};
 				data.id = id;
 				data.nome = nome;
@@ -234,7 +237,7 @@ function editarcaixa(id,nome,obrigatorio,opcoes,mult,unica,form){
 				data.form = form;
 				data.obrigatorio = (obrigatorio == true) ? 1 : 0;
 				data.multipla = (mult == true) ? 1 : 0;
-				
+				data.tipo = tipo;
 				$.ajax({
 						type: 'POST',
 						data: JSON.stringify(data),

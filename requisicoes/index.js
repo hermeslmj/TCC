@@ -459,6 +459,9 @@ GerenciadorDeRequisicao.prototype.excluirdado = function(request,response){
 GerenciadorDeRequisicao.prototype.editarform = function (request,response){
 	this.controleDeFormulario.editarform(request,response);
 }
+GerenciadorDeRequisicao.prototype.editarCampo = function(dados,response){
+	this.controleDeFormulario.editarCampo(dados);
+}
 
 GerenciadorDeRequisicao.prototype.apagarCampo = function(dados,response){
 	this.controleDeFormulario.apagarCampo(dados,response);
