@@ -116,15 +116,15 @@ function inserirCampos(idForm,dados){
     				
     				if(tamanho > 0 ){
     					if(obrigatorio){
-    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+" class=required ";
+    						 html+= "<input type=text  name=formulario["+marcador+"] maxlength="+tamanho+" class=required ";
     					}else{
-    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] maxlength="+tamanho+"  class='";
+    						 html+= "<input type=text name=formulario["+marcador+"] maxlength="+tamanho+"  class='";
     					}
     				}else{
     					if(obrigatorio){
-    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='required ";
+    						 html+= "<input type=text  name=formulario["+marcador+"] class='required ";
     					}else{
-    						 html+= "<input type=text nome="+marcador+" name=formulario["+marcador+"] class='";
+    						 html+= "<input type=text  name=formulario["+marcador+"] class='";
     					}	
     					
     				}
@@ -243,7 +243,7 @@ function inserirCampos(idForm,dados){
     				var opt = opcoes.split(',');
     				console.log(opt);
     				for(var j  = 0; j < opt.length; j++){
-    					 html+="<option value="+j+">"+opt[j]+"</option>";
+    					 html+="<option value="+opt[j]+">"+opt[j]+"</option>";
     				}
     				html+="</select>";
     				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
@@ -400,7 +400,7 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 				+
 				"<h2 class=\"star\"><span>"+campos[0].formulario+"</span> </h2>"
 				+
-				"<form id=formulario  name=frm"+campos[0].idform+" action=\"/inserirDados\" method=\"post\" > <table> <input type=hidden value="+campos[0].idform+" name=formulario[id]>"
+				"<form id=formulario   action=\"/inserirDados\" method=\"post\" > <table> <input type=hidden value="+campos[0].idform+" name=formulario[id]>"
 				;
 	
 	
@@ -416,7 +416,7 @@ ModeloFormulario.prototype.montarFormulario = function(request,response){
 			
 		}
 		
-		html += "<tr><td><input type=submit><input type=reset></td><td></td></tr></table></div>" //fim do article
+		html += "<tr><td><input type=submit><input type=reset></td><td></td></tr></form></table></div>" //fim do article
 				+
 				"</div>" //fim do mainbar
 				+
@@ -497,7 +497,7 @@ ModeloFormulario.prototype.inserirDados = function(dados,response){
 	
 	var sql;
 	
-	
+	console.log(dados.formulario);
 	for(var i in dados.formulario){
 		if(i == 'id'){
 			sql = "INSERT INTO frm"+dados.formulario[i]+"(";
@@ -791,7 +791,7 @@ function montarFormularioEdicao(response,result){
 	+
 	"<body>"
 	+
-	"<form method=\post\ action=\/gerenciarformulario\>"
+	"<form method=\post\ action=\/gerenciarEdicaoformulario\>"
 	+
 	"<table style=\"width: 100%; background-color:#D8DBDC\">"
 	+
@@ -1155,28 +1155,125 @@ ModeloFormulario.prototype.editarCampo = function(dados,response){
     					break;
     				}
     				
-    				
+    				var table = "";
     				sqlcampo = "UPDATE 	`campo` SET `nome` = '"+marcador+"',`tipo` = '"+tipo+"',`obrigatorio` = "+obrigatorio+",`html` = \""+html+"\" WHERE `id`="+dados.id;
     				sqlespecifico = "UPDATE `texto` SET `tamanho` = '"+tamanho+"',   `validacao` = '"+validacao+"'";
     				if(tamanho == 0){
     					
-    					table += "ALTER frm"+dados.form+"  "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    					table += "ALTER TABLE `frm"+dados.form+"` CHANGE COLUMN `"+marcador+"` `"+marcador+"` TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
     				} else{
-    					table += ","+marcador+" VARCHAR("+ tamanho +") "+((obrigatorio == 1) ? "NOT NULL" : "");
+    					table += "ALTER TABLE `frm"+dados.form+"` CHANGE COLUMN `"+marcador+"` `"+marcador+"` VARCHAR("+ tamanho +") "+((obrigatorio == 1) ? "NOT NULL" : "");
     				}
     				
     				
     				console.log(table);
-    				//db.executar(sqlcampo);
+    				db.executar(sqlcampo);
+    				db.executar(sqlespecifico);
+    				db.executar(table);
     		
 		break;
 		case 'area':
+					marcador = dados.nome;
+    				tipo  = dados.tipo;
+    				obrigatorio = dados.obrigatorio ;
+    				
+    				var largura = 300;
+    				var altura = 300;
+    			
+    				if(obrigatorio){
+    					var html = "<textarea name=formulario["+marcador+"] class='required'></textarea>";	
+    				}else{
+    					var html = "<textarea name=formulario["+marcador+"] ></textarea>";
+    				}
+    				
+    				sqlcampo = "UPDATE `campo` SET `nome` = '"+marcador+"', `html` = \""+html+"\" ,`obrigatorio` = "+obrigatorio+" WHERE id="+dados.id;
+    				
+    				var table = "ALTER TABLE `frm"+dados.form+"` CHANGE COLUMN `"+marcador+"` `"+marcador+"` TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    				console.log(sqlcampo);
+    				console.log(table);
+    						db.executar(sqlcampo);
+    				//db.executar(sqlespecifico);
+    				db.executar(table);
+    					
 		
 		break;
 		case 'lista':
+		console.log(dados);
+					marcador = dados.nome;
+    				tipo  = dados.tipo;
+    				obrigatorio = dados.obrigatorio;
+    				var opcoes = dados.opt;
+    				
+    				if(obrigatorio)
+    					var html = "<select name=formulario["+marcador+"] class='required'>";
+    				else
+    					var html = "<select name=formulario["+marcador+"]>";
+    					
+    				var opt = opcoes.split(',');
+    				console.log(opt);
+    				for(var j  = 0; j < opt.length; j++){
+    					 html+="<option value="+j+">"+opt[j]+"</option>";
+    				}
+    				html+="</select>";
+    				
+    				var sqlcampo = "UPDATE  `campo` SET `nome` = '"+marcador+"', `html` = \""+html+"\" ,`obrigatorio` = "+obrigatorio+" WHERE id="+dados.id;
+    				var sqlespecifico = "UPDATE  `lista` SET `opcoes` = '"+opcoes+"' WHERE id="+dados.id;
+    				var table = "ALTER TABLE `frm"+dados.form+"` CHANGE COLUMN `"+marcador+"` `"+marcador+"`  TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
+    				
+    				
+    				console.log(sqlcampo);
+    				console.log(sqlespecifico);
+    				console.log(table);
+    						db.executar(sqlcampo);
+    				db.executar(sqlespecifico);
+    				db.executar(table);
+    				
 		
 		break;
-		case 'caixa':
+		case 'marcacao':
+			console.log(dados);
+				marcador = dados.nome;
+    				tipo  = dados.tipo;
+    				obrigatorio = dados.obrigatorio;
+    				var opcoes = dados.opcoes;
+    				var opt = opcoes.split(',');
+    				
+    				var multipla = dados.multipla;
+    				var html = "";
+					console.log(multipla);    				
+    				if(multipla == 1){
+    					if(obrigatorio){
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=checkbox name=formulario["+marcador+"] class='required' value="+opt[j]+" />"+opt[j];
+    						}	
+    					}else{
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=checkbox name=formulario["+marcador+"] value="+opt[j]+" />"+opt[j];
+    						}
+    					}
+    					
+    				}else{
+    					if(obrigatorio){
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=radio name=formulario["+marcador+"] class='required'value="+opt[j]+"  />"+opt[j];
+    						}	
+    					}else{
+    						for(var j = 0; j < opt.length; j++){
+	    						html += "<input type=radio name=formulario["+marcador+"] value="+opt[j]+" />"+opt[j];
+    						}
+    					}
+    					
+    					
+    				}
+    				var sqlcampo = "UPDATE  `campo` SET `nome` = '"+marcador+"', `html` = \""+html+"\" ,`obrigatorio` = "+obrigatorio+" WHERE id="+dados.id;
+    				var sqlespecifico = "UPDATE  `caixa` SET `opcoes` = '"+opcoes+"', `multilpa` = "+multipla+" WHERE id="+dados.id;
+ 					   			
+    				var table = "ALTER TABLE  `frm"+dados.form+"` CHANGE COLUMN `"+marcador+"` `"+marcador+"`  TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
+    		
+    				db.executar(sqlcampo);
+    				db.executar(sqlespecifico);
+    				db.executar(table);
+
 		
 		break;
 		case 'up':
