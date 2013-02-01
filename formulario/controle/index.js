@@ -38,5 +38,9 @@ ControleFormulario.prototype.apagarCampo = function(dados,response){
 ControleFormulario.prototype.editarCampo = function(dados,response){
 	this.modeloFormulario.editarCampo(dados,response);
 }
+ControleFormulario.prototype.gerenciarEdicaoFormulario = function(request,response){
+	this.modeloFormulario.gerenciarEdicaoFormulario(request,response);
+}
+
 module.exports = ControleFormulario;
 

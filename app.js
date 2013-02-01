@@ -107,7 +107,12 @@ app.post('/deletarcampo',function(request,response){
 app.post('/editarcampo',function(request,response){
 	GerenciadorDeRequisicao.editarCampo(request.body,response);
 	
+});
+
+app.post('/gerenciarEdicaoFormulario',function(request,response){
+	GerenciadorDeRequisicao.gerenciarEdicaoFormulario(request,response);
 })
+
 
 
 // Fim Routes

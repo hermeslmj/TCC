@@ -791,7 +791,7 @@ function montarFormularioEdicao(response,result){
 	+
 	"<body>"
 	+
-	"<form method=\post\ action=\/gerenciarEdicaoformulario\>"
+	""
 	+
 	"<table style=\"width: 100%; background-color:#D8DBDC\">"
 	+
@@ -845,7 +845,7 @@ function montarFormularioEdicao(response,result){
 	+	
 	"<hr>"
 	+
-	"<div style=\"width: 100%\" id='campos'>";
+	"";
 	
 	response.write(html);
 	
@@ -901,7 +901,7 @@ function montarFormularioEdicao(response,result){
 						+
 						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-						"<td><input align=right value=Editar type=button onclick='editartexto("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"comprimento\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"validacao :selected\").val(),$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"tipo\").val())'></td></tr></table><hr>"
+						"<td><input align=right value=Editar type=button onclick='editartexto("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"comprimento\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"validacao :selected\").val(),$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"tipo\").val())'></td></tr></div></table><hr>"
 						+
 						"</div>";
 
@@ -977,7 +977,7 @@ function montarFormularioEdicao(response,result){
 					+
 				"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' onclick='editarlista("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"tipo\").val())' ></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editarlista("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"tipo\").val())' ></td></tr></table></div><hr>";
 							response.write(campo);
 						
 					});
@@ -1010,7 +1010,7 @@ function montarFormularioEdicao(response,result){
 					+
 						"<tr><td><input align='right' value='Remover' type='button' onclick='deletacampo("+result[0].id+",$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"marcador\").val())' ></td>"
 						+
-				"<td><input align='right' value='Editar' type='button' onclick='editarcaixa("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"multi \").is(\":checked\"),$(\"#campo"+result[0].id+"unica \").is(\":checked\"),$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"tipo\").val())'></td></tr></table><hr>";
+				"<td><input align='right' value='Editar' type='button' onclick='editarcaixa("+result[0].id+",$(\"#campo"+result[0].id+"marcador\").val(),$(\"#campo"+result[0].id+"obrigatorio\").is(\":checked\"),$(\"#campo"+result[0].id+"opcoes \").val(),$(\"#campo"+result[0].id+"multi \").is(\":checked\"),$(\"#campo"+result[0].id+"unica \").is(\":checked\"),$(\"#campo"+result[0].id+"form\").val(),$(\"#campo"+result[0].id+"tipo\").val())'></td></tr></table></div><hr>";
 							response.write(campo);
 					});
 				break;
@@ -1043,19 +1043,11 @@ function montarFormularioEdicao(response,result){
 				case 'ultimo':
 				console.log('ult');
 					db.selectResponse("SELECT * FROM campo",response,function(response,result){
-						html = 	"</div>"
+						html = 	"</div><form method=\post\ action=\/gerenciarEdicaoformulario\><div style=\"width: 100%\" id='campos'><h3>NOVOS CAMPOS</h3></div>"
 						+
-						"<fieldset>"
-						+
-						"<legend>Personalização:</legend>"
-						+
-						"<label>Mensagem de envio:</label>"
-						+
-						"<input type=\"text\" value=\"Dados enviados com sucesso\"  style=\"width: 70%\"/>"
-						+
-						"</fieldset>"
-						+
-						"<input type=\"submit\" />"
+		
+		
+						"<input type=\"submit\"  value='Concluir' />"
 						+
 						"</form>"
 						+
@@ -1266,7 +1258,7 @@ ModeloFormulario.prototype.editarCampo = function(dados,response){
     					
     				}
     				var sqlcampo = "UPDATE  `campo` SET `nome` = '"+marcador+"', `html` = \""+html+"\" ,`obrigatorio` = "+obrigatorio+" WHERE id="+dados.id;
-    				var sqlespecifico = "UPDATE  `caixa` SET `opcoes` = '"+opcoes+"', `multilpa` = "+multipla+" WHERE id="+dados.id;
+    				var sqlespecifico = "UPDATE  `caixa` SET `opcoes` = '"+opcoes+"', `multipla` = "+multipla+" WHERE id="+dados.id;
  					   			
     				var table = "ALTER TABLE  `frm"+dados.form+"` CHANGE COLUMN `"+marcador+"` `"+marcador+"`  TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
     		
@@ -1284,6 +1276,10 @@ ModeloFormulario.prototype.editarCampo = function(dados,response){
 	
 	
 	
+}
+
+ModeloFormulario.prototype.gerenciarEdicaoFormulario = function(request,response){
+	console.log(request.body);
 }
 
 
