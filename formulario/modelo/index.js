@@ -767,7 +767,7 @@ function montarFormularioEdicao(response,result){
 	db.conect(c.user,c.password,c.host,c.db);
 	console.log(result);
 	var campos  = result;
-	campos.push(JSON.parse("{\"tipo\": \"ultimo\"}"));
+	campos.push(JSON.parse("{\"tipo\": \"ultimo\" , \"idForm\": \""+result[0].id_formulario+"\"}"));
 	console.log(campos);
 	
 	
@@ -1042,8 +1042,9 @@ function montarFormularioEdicao(response,result){
 				break;
 				case 'ultimo':
 				console.log('ult');
-					db.selectResponse("SELECT * FROM campo",response,function(response,result){
-						html = 	"</div><form method=\post\ action=\/gerenciarEdicaoformulario\><div style=\"width: 100%\" id='campos'><h3>NOVOS CAMPOS</h3></div>"
+				console.log(campos[i].idForm);
+					db.selectResponse("SELECT * FROM campo WHERE id_formulario="+campos[i].idForm,response,function(response,result){
+						html = 	"</div><form method=\post\ action=\/gerenciarEdicaoformulario\><div style=\"width: 100%\" id='campos'><input  type=hidden value="+result[0].id_formulario+" name=form[id] /><h3>NOVOS CAMPOS</h3></div>"
 						+
 		
 		
@@ -1280,6 +1281,306 @@ ModeloFormulario.prototype.editarCampo = function(dados,response){
 
 ModeloFormulario.prototype.gerenciarEdicaoFormulario = function(request,response){
 	console.log(request.body);
+}
+
+ModeloFormulario.prototype.editar = function(dados){
+	var c = this.config.retornaConfiguracao();	
+	this.db.conect(c.user,c.password,c.host,c.db);  
+	//db.conect('root','root','localhost','tcc');
+	data_atual = new Date(); 
+	mes = data_atual.getMonth();
+	mes += 1;
+	data_atual = data_atual.getDate()+'-'+mes+'-'+data_atual.getFullYear();
+	sql = 'UPDATE `formulario` SET nome "'+ dados['name'] +'","'+ data_atual +'")';
+	
+	this.db.insert(sql,inserirCampos,dados);
+	
+	
+	
+	
+	//console.log(dados);	
+	
+
+	
+}
+
+
+function inserirCampoEspecifico(idCampo,dados){
+	
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db);
+	
+	
+	
+	switch(dados[0]){
+		case 'texto':
+			var sqlespecifico = "INSERT INTO texto(id,tamanho,validacao) VALUES("+idCampo+","+dados[1]+",'"+dados[2]+"')";
+			db.insert(sqlespecifico,function(id,dados){
+				//console.log(id);
+			},null);	
+		break;
+		case 'area':
+			var sqlespecifico = "INSERT INTO areaTexto(id,largura,altura) VALUES("+idCampo+","+dados[1]+","+dados[2]+")";
+			db.insert(sqlespecifico,function(id,dados){
+				//console.log(id);
+			},null);	
+		break;
+		case 'upload':
+			var sqlespecifico = "INSERT INTO upload(id,caminho) VALUES("+idCampo+",'"+dados[1]+"')";
+			db.insert(sqlespecifico,function(id,dados){
+				//console.log(id);
+				},null);	
+		break;
+		case 'lista':
+			var sqlespecifico = "INSERT INTO lista(id,opcoes) VALUES("+idCampo+",'"+dados[1]+"')";
+			db.insert(sqlespecifico,function(id,dados){
+				//console.log(id);
+			},null);	
+		break;
+		case 'marcacao':
+			var sqlespecifico = "INSERT INTO caixa(id,multipla,opcoes) VALUES("+idCampo+",'"+dados[1]+"','"+dados[2]+"')";
+			db.insert(sqlespecifico,function(id,dados){
+				//console.log(id);
+			},null);	
+		break;
+	}
+	 
+	
+	
+	//this.db.insert()
+}
+
+
+function inserirCampos(idForm,dados){
+
+	var db = new banco();
+	var config = new configuracao();
+	var c = config.retornaConfiguracao();	
+	db.conect(c.user,c.password,c.host,c.db); 
+	
+	var marcador,tipo,obrigatorio;
+	var sqlcampo,sqlespecifico;
+	/*console.log('chamei inserir campo para o form:'+idForm+" com os dados:");
+	console.log(dados);*/
+	var table = "CREATE TABLE frm"+idForm+"( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY";
+	var h = 0;
+	for(var i in dados){
+		 if(dados[i].tipo == undefined){
+    	//	console.log('nao eh campo');
+    	}else{
+    		switch(dados[i].tipo){
+    			case 'texto':
+    				 html = "";
+    				marcador = dados[i].marcador;
+    				tipo  = dados[i].tipo;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				var tamanho = ((dados[i].comprimento == "") ? 0 : dados[i].comprimento);
+    				var validacao = dados[i].validacao;
+    				
+    				if(tamanho > 0 ){
+    					if(obrigatorio){
+    						 html+= "<input type=text  name=formulario["+marcador+"] maxlength="+tamanho+" class=required ";
+    					}else{
+    						 html+= "<input type=text name=formulario["+marcador+"] maxlength="+tamanho+"  class='";
+    					}
+    				}else{
+    					if(obrigatorio){
+    						 html+= "<input type=text  name=formulario["+marcador+"] class='required ";
+    					}else{
+    						 html+= "<input type=text  name=formulario["+marcador+"] class='";
+    					}	
+    					
+    				}
+    				switch(validacao){
+    					case '0':
+    						html+="' \>";
+    					break;
+    					case '1':
+    						html+="number' \>";
+    					break;
+    					case '2':
+    						html+="number' maxlength=13  \>";
+    					break;
+    					case '3':
+    						html+="email'  \>";
+    					break;
+    					case '4':
+    						html+="cpf' \>";
+    					break;
+    					case '5':
+    						html+="date' \>";
+    					break;
+    				}
+    				
+    				
+    				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
+    				var arg =  Array();
+    				arg.push('texto');
+    				arg.push(tamanho);
+    				arg.push(validacao);
+    				
+    				if(tamanho == 0){
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
+    					table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    				} else{
+    					table += ","+marcador+" VARCHAR("+ tamanho +") "+((obrigatorio == 1) ? "NOT NULL" : "");
+    				}
+    				
+	    				
+    				//sqlespecifico = "INSERT INTO texto(id,tamanho,validacao) VALUES(0,"+tamanho+",'"+validacao+"')";
+    				console.log(sqlcampo);
+    				db.insert(sqlcampo,inserirCampoEspecifico,arg);
+    			break;
+    			
+    			case 'area':
+     				
+    				marcador = dados[i].marcador;
+    				tipo  = dados[i].tipo;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				//var largura = ((dados[i].altura == "") ? "0" : dados[i].altura ); 
+    				//var altura  = ((dados[i].largura == "") ? "0" : dados[i].largura );
+    				var largura = 300;
+    				var altura = 300;
+    			
+    				if(obrigatorio){
+    					var html = "<textarea name=formulario["+marcador+"] class='required'></textarea>";	
+    				}else{
+    					var html = "<textarea name=formulario["+marcador+"] ></textarea>";
+    				}
+    				
+    				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
+    				//sqlespecifico = "INSERT INTO areaTexto(id,largura,altura) VALUES(0,"+largura+","+altura+")";
+    				var arg =  Array();
+    				arg.push('area');
+    				arg.push(largura);
+    				arg.push(altura);
+    				
+    				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    					
+    				db.insert(sqlcampo,inserirCampoEspecifico,arg);
+    			break;
+    			
+    			case 'upload':
+    			
+    				marcador = dados[i].marcador;
+    				tipo  = dados[i].tipo;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				var caminho = '/upload';
+    				if(obrigatorio){
+    					var html = "<input type=file name=formlario["+marcador+"] class='required' />"	
+    				}else{
+    					var html = "<input type=file name=formlario["+marcador+"] />"
+    				}
+    				
+    				
+    				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
+    				//sqlespecifico = "INSERT INTO upload(id,caminho) VALUES(0,'"+caminho+"')";
+    				var arg =  Array();
+    				arg.push('upload');
+    				arg.push(caminho);
+    				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");
+    				
+    				db.insert(sqlcampo,inserirCampoEspecifico,arg);
+    				
+    			break;
+    			
+    			case 'lista':
+    			
+    				marcador = dados[i].marcador;
+    				tipo  = dados[i].tipo;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				var opcoes = dados[i].opcoes;
+    				
+    				if(obrigatorio)
+    					var html = "<select name=formulario["+marcador+"] class='required'>";
+    				else
+    					var html = "<select name=formulario["+marcador+"]>";
+    					
+    				var opt = opcoes.split(',');
+    				console.log(opt);
+    				for(var j  = 0; j < opt.length; j++){
+    					 html+="<option value="+opt[j]+">"+opt[j]+"</option>";
+    				}
+    				html+="</select>";
+    				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
+    				//sqlespecifico = "INSERT INTO lista(id,opcoes) VALUES(0,'"+opcoes+"')";
+    				var arg =  Array();
+    				arg.push('lista');
+    				arg.push(opcoes);
+    				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
+    				
+    				db.insert(sqlcampo,inserirCampoEspecifico,arg);
+    			break;
+    			
+    			case 'marcacao':
+    			
+    				marcador = dados[i].marcador;
+    				tipo  = dados[i].tipo;
+    				obrigatorio = ((dados[i].obrigatorio == "on") ? 1 : 0) ;
+    				var opcoes = dados[i].opcoes;
+    				var opt = opcoes.split(',');
+    				
+    				var multipla = ((dados[i].multipla == "unica") ? 0 : 1);
+    				var html = "";
+					console.log(multipla);    				
+    				if(multipla == 1){
+    					if(obrigatorio){
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=checkbox name=formulario["+marcador+"] class='required' value="+opt[j]+" />"+opt[j];
+    						}	
+    					}else{
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=checkbox name=formulario["+marcador+"] value="+opt[j]+" />"+opt[j];
+    						}
+    					}
+    					
+    				}else{
+    					if(obrigatorio){
+    						for(var j = 0; j < opt.length; j++){
+    							html += "<input type=radio name=formulario["+marcador+"] class='required'value="+opt[j]+"  />"+opt[j];
+    						}	
+    					}else{
+    						for(var j = 0; j < opt.length; j++){
+	    						html += "<input type=radio name=formulario["+marcador+"] value="+opt[j]+" />"+opt[j];
+    						}
+    					}
+    					
+    					
+    				}
+    				
+    				sqlcampo = "INSERT INTO campo(id_formulario,nome,tipo,obrigatorio,html) VALUES("+idForm+",'"+marcador+"','"+tipo+"',"+obrigatorio+",\""+html+"\")";
+    				
+    				var arg =  Array();
+    				arg.push('marcacao');
+    				arg.push(multipla);
+    				arg.push(opcoes);
+    				
+    					marcador = marcador.replaceAll(' ','_');
+    					marcador = marcador.replaceAll('/','_');
+    				table += ", "+marcador+" TEXT "+ ((obrigatorio == 1) ? "NOT NULL" : "");	
+    				
+					db.insert(sqlcampo,inserirCampoEspecifico,arg);
+    			break;
+    			
+    		}
+    	}
+    	h++;
+	}
+	table += ");"	
+	console.log(table);
+	db.executar(table);
 }
 
 
